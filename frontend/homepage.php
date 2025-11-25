@@ -31,7 +31,7 @@
         </div>
 
         <div class="nav-right">
-            <a href="#">Home</a>
+            <a href="#home">Home</a>
             <a href="#layanan">Layanan</a>
         </div>
     </nav>
@@ -52,7 +52,7 @@
         <h2>Pilih Layanan</h2>
         <p class="keterangan-layanan">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum quaerat repellat totam. Laborum, voluptate accusantium.</p>
         <div class="pilih-layanan">
-            <div class="ibu">
+            <div class="ibu" id="openModalIbu">
                 <div class="logo-ibu">
                     <i data-feather="heart"></i>
                 </div>
@@ -63,7 +63,7 @@
                     <p>● Konseling Gizi</p>
                  </div>
             </div>
-            <div class="anak">
+            <div class="anak" id="openModalAnak">
                 <div class="logo-anak">
                     <i data-feather="activity"></i>
                 </div>
@@ -75,7 +75,7 @@
                  </div>
             </div>
         </div>
-        <div class="button-login-admin">
+        <div class="button-login-admin" id="openModalAdmin">
             <h4>Login Sebagai Admin</h4>
        </div>
      </section>
@@ -110,6 +110,90 @@
     </footer>
     <!-- Footer End -->
 
+
+    <!-- Modal Login Ibu -->
+    <div id="modalIbu" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Login ke Layanan Ibu</h2>
+            <label>Email</label>
+            <input type="email" placeholder="Masukkan Email">
+            <label >Password</label>
+            <input type="password" placeholder="Masukkan Password">
+            <button class="login-submit">Login</button>
+
+            <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
+        </div>
+    </div>
+
+    <!-- Modal Login Anak -->
+    <div id="modalAnak" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Login ke Layanan Anak</h2>
+            <label>Email</label>
+            <input type="email" placeholder="Masukkan Email">
+            <label >Password</label>
+            <input type="password" placeholder="Masukkan Password">
+            <button class="login-submit">Login</button>
+
+            <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
+        </div>
+    </div>
+
+    <!-- Modal Login Admin -->
+    <div id="modalAdmin" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Login Admin</h2>
+            <label>NIP</label>
+            <input type="email" placeholder="Masukkan NIP">
+            <label >Password</label>
+            <input type="password" placeholder="Masukkan Password">
+            <button class="login-submit">Login</button>
+        </div>
+    </div>
+
+    <!-- Script gw -->
+    <script>
+        const modalIbu = document.getElementById("modalIbu");
+        const openModalIbu = document.getElementById("openModalIbu");
+
+        //Open Modal
+        openModalIbu.addEventListener("click", () =>{
+            modalIbu.style.display = "flex";
+        })
+
+        //Close Modal
+        modalIbu.addEventListener("click", (e) =>{
+            if(e.target === modalIbu){
+                modalIbu.style.display = "none";
+            }
+        })
+
+        const modalAnak = document.getElementById("modalAnak");
+        const openModalAnak = document.getElementById("openModalAnak");
+
+        openModalAnak.addEventListener("click", () =>{
+            modalAnak.style.display = "flex";
+        })
+
+        modalAnak.addEventListener("click", (e) =>{
+            if(e.target === modalAnak){
+                modalAnak.style.display = "none";
+            }
+        })
+
+        const modalAdmin = document.getElementById("modalAdmin");
+        const openModalAdmin = document.getElementById("openModalAdmin");
+
+        openModalAdmin.addEventListener("click", () =>{
+            modalAdmin.style.display = "flex";
+        })
+
+        modalAdmin.addEventListener("click", (e) =>{
+            if(e.target === modalAdmin){
+                modalAdmin.style.display = "none"
+            }
+        })
+    </script>
 
      <!-- Script Bootsrap -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
