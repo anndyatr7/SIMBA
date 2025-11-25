@@ -20,7 +20,7 @@
                 <h2>Formulir Pendaftaran Akun</h2>
                 <hr />
             </div>
-            <form action="" id="formp" class="need-validation" method="POST" novalidate>
+            <form action="dashboard-ibu.php" id="formp" class="need-validation" method="POST" novalidate>
                 <div action="" class="d-flex gap-4">
                     <div class="form-group w-50">
                         <label for="exampleInputName1">Nama Lengkap</label>
@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button type="submit" class="btn btn-primary mt-3" style="width: 75%;">Daftar Sekarang</button>
+                    <button type="submit" class="btn btn-primary mt-3" id="buttonkirim" style="width: 75%;">Daftar Sekarang</button>
                     <button type="reset" class="btn btn-danger mt-3" style="width: 25%;">Reset</button>
                 </div>
                 

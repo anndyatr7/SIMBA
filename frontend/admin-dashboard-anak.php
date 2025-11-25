@@ -6,13 +6,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Admin Anak</title>
     <style>
+        body{
+            margin-top: 90px;
+        }
         .card-header {
             padding: 0 !important;
         }
         .card{
              min-height: 100vh;
         }
-
         .nav-tabs .nav-link.active {
             color: #000 !important;        
             font-weight: 700 !important;
@@ -23,8 +25,26 @@
             font-weight: 500;
         }
     </style>
+    <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
 </head>
 <body>
+    <!-- NavBar Start -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="../img/logo.jpg" alt="ini logo" class="logo">
+            <div class="Judul">
+                <a href="#" class="simba">SIMBA</a>
+                <p>Sistem Informasi Ibu dan Anak</p>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#home">Home</a>
+            <a href="#layanan">Layanan</a>
+        </div>
+    </nav>
+    <!-- NavBar End -->
+
     <div class="container mt-4 mb-4">
         <div class="card text-center mx-auto shadow rounded" style="width: 100%">
 
