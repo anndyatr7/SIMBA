@@ -124,42 +124,48 @@
 
     <!-- Modal Login Ibu -->
     <div id="modalIbu" class="modal-overlay">
-        <div class="modal-box">
-            <h2>Login ke Layanan Ibu</h2>
-            <label>Email</label>
-            <input type="email" placeholder="Masukkan Email">
-            <label >Password</label>
-            <input type="password" placeholder="Masukkan Password">
-            <button class="login-submit">Login</button>
+        <form action="../backend/auth.php" method="POST">
+            <div class="modal-box">
+                <h2>Login ke Layanan Ibu</h2>
+                <label>NIK</label>
+                <input type="text" placeholder="Masukkan NIK" name="NIK">
+                <label >Password</label>
+                <input type="password" placeholder="Masukkan Password" name="password">
+                <button class="login-submit" name="login">Login</button>
 
-            <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
-        </div>
+                <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
+            </div>
+        </form>
     </div>
 
     <!-- Modal Login Anak -->
     <div id="modalAnak" class="modal-overlay">
-        <div class="modal-box">
-            <h2>Login ke Layanan Anak</h2>
-            <label>Email</label>
-            <input type="email" placeholder="Masukkan Email">
-            <label >Password</label>
-            <input type="password" placeholder="Masukkan Password">
-            <button class="login-submit">Login</button>
+        <form action="../backend/auth.php" method="POST">
+            <div class="modal-box">
+                <h2>Login ke Layanan Anak</h2>
+                <label>NIK</label>
+                <input type="text" placeholder="Masukkan NIK" name="NIK">
+                <label >Password</label>
+                <input type="password" placeholder="Masukkan Password" name="password">
+                <button class="login-submit" name="login">Login</button>
 
-            <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
-        </div>
+                <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
+            </div>
+        </form>
     </div>
 
     <!-- Modal Login Admin -->
     <div id="modalAdmin" class="modal-overlay">
-        <div class="modal-box">
-            <h2>Login Admin</h2>
-            <label>NIP</label>
-            <input type="email" placeholder="Masukkan NIP">
-            <label >Password</label>
-            <input type="password" placeholder="Masukkan Password">
-            <button class="login-submit">Login</button>
-        </div>
+        <form action="../backend/auth.php" method="POST">
+            <div class="modal-box">
+                <h2>Login Admin</h2>
+                <label>NIP</label>
+                <input type="text" placeholder="Masukkan NIP" name="NIP">
+                <label >Password</label>
+                <input type="password" placeholder="Masukkan Password" name="passwordAdmin">
+                <button class="login-submit" name="loginAdmin">Login</button>
+            </div>
+        </form>
     </div>
 
     <!-- Script gw -->

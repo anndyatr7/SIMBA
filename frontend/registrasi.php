@@ -12,15 +12,19 @@
             background: rgb(244, 241, 245);
         }
     </style>
+    <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
+
 </head>
 <body>
+    
+
     <div class="d-flex justify-content-center" style="padding: 40px;">
         <div class="kotak" style="padding: 30px 45px 45px 45px;">
             <div style="text-align: center;">
                 <h2>Formulir Pendaftaran Akun</h2>
                 <hr />
             </div>
-            <form action="dashboard-ibu.php" id="formp" class="need-validation" method="POST" novalidate>
+            <form action="../backend/create-user.php" id="form" class="need-validation" method="POST" novalidate>
                 <div action="" class="d-flex gap-4">
                     <div class="form-group w-50">
                         <label for="exampleInputName1">Nama Lengkap</label>
@@ -46,10 +50,10 @@
                 <div action="" class="d-flex gap-4 mt-3">
                     <div class="form-group w-40">
                         <label for="nohp">Nomor HP</label>
-                        <input type="number" placeholder="08XXXXXXXX" class="form-control" name="nohp">
+                        <input type="number" placeholder="08XXXXXXXX" class="form-control" name="no_hp">
                     </div>
                     <div class="form-group w-30">
-                        <label for="keluhan">Golongan Darah</label>
+                        <label for="goldar">Golongan Darah</label>
                         <div class="dropdown">
                             <button class="btn btn-light w-100 border dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 Pilih Golongan Darah
@@ -61,16 +65,16 @@
                                 <li><label class="dropdown-item"><input type="checkbox" class="me-2 goldarCheck" value="O"> O</label></li>
                             </ul>
                         </div>
-                        <input type="hidden" name="keluhan" id="keluhanInput">
+                        <input type="hidden" name="goldar" id="goldar">
                     </div> 
                     <div class="form-group w-30 text-start">
                         <label>Gender</label>
                          <div class="d-flex align-items-center mb-2">
-                             <input class="form-check-input" style="margin-right: 10px;" type="radio" name="gender" id="Perempuan" value="Perempuan">
+                             <input class="form-check-input" style="margin-right: 10px;" type="radio" name="gender" id="Perempuan" value="1">
                              <label class="form-check-label" for="Perempuan">Perempuan</label>
                          </div>
                          <div class="d-flex align-items-center mb-2">
-                             <input class="form-check-input" style="margin-right: 10px;" type="radio" name="gender" id="Laki-laki" value="Laki-laki">
+                             <input class="form-check-input" style="margin-right: 10px;" type="radio" name="gender" id="Laki-laki" value="2">
                              <label class="form-check-label" for="Laki-laki">Laki-laki</label>
                          </div>
                     </div>
@@ -95,7 +99,7 @@
                 </div>
 
                 <div class="d-flex justify-content-center gap-2 mt-3">
-                    <button type="submit" class="btn btn-primary mt-3" id="buttonkirim" style="width: 75%;">Daftar Sekarang</button>
+                    <button type="submit" class="btn btn-primary mt-3" id="buttonkirim" style="width: 75%;" name="regis">Daftar Sekarang</button>
                     <button type="reset" class="btn btn-danger mt-3" style="width: 25%;">Reset</button>
                 </div>
                 

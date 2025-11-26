@@ -1,0 +1,303 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #e7f7fc;
+  font-family: "Poppins", sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+  background: #ffffff;
+  padding: 12px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(180deg, #1e5bf7, #83ffff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+.text .title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.text .subtitle {
+  font-size: 12px;
+  margin-top: -4px;
+  color: rgb(90, 90, 90);
+}
+
+.switch-btn {
+  background: white;
+  color: #ff68c3;
+  border: 1.5px solid #ff68c3;
+  padding: 7px 15px;
+  border-radius: 10px;
+  margin-left: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none !important;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile .name {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.profile .email {
+  font-size: 11px;
+  color: gray;
+  margin-top: -3px;
+  text-align: right;
+}
+
+.logout-btn {
+  background: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================= */
+/*         NAV BUTTON         */
+/* ========================= */
+
+.custom-nav {
+  background: white;
+  padding: 8px;
+  border-radius: 40px;
+  display: inline-flex;
+  gap: 8px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+  margin-left: 40px;
+}
+
+.nav-item {
+  text-decoration: none !important;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  color: black;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, #1e5bf7, #83ffff);
+  color: white !important;
+  #1e5bf7,
+  #83ffff;
+}
+
+/* WELCOME */
+.welcome-banner {
+  background: linear-gradient(90deg, #1e5bf7, #83ffff);
+  color: white;
+  padding: 35px 40px;
+  border-radius: 20px;
+  margin: 30px 40px;
+  font-family: "Poppins", sans-serif;
+}
+
+.welcome-banner h4 {
+  margin: 0 0 5px 0;
+  font-weight: 600;
+}
+
+.welcome-banner p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.95;
+}
+
+/* GRID */
+.main-grid {
+  margin: 20px 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 20px;
+}
+
+/* GRAFIK */
+.growth-card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  grid-column: 1 / 2;
+  grid-row: 1 / 4;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.chart-box {
+  height: 260px;
+  border: 1px dashed #ccc;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+}
+
+/* INFO CARD */
+.info-card {
+  height: 120px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.age-card {
+  background: linear-gradient(180deg, #4ec8ff, #299bff);
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.dev-card {
+  background: linear-gradient(180deg, #ff68c3, #ff4ac4);
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+.info-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.info-label {
+  font-size: 13px;
+}
+.info-value {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* MENU CEPAT */
+.quick-menu-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  grid-column: 2/3;
+  grid-row: 3/4;
+}
+
+.menu-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.menu-item {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  border: 1.8px solid #eee;
+  padding: 12px 15px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  transition: 0.2s;
+}
+
+.menu-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+}
+
+.menu-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.imunisasi .menu-icon {
+  background: linear-gradient(90deg, #007bff, #0dcaf0);
+}
+.tumbuh .menu-icon {
+  background: #22c55e;
+}
+
+/* PENCAPAIAN */
+.achievement-card {
+  background: #fff6d8;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.ach-icon {
+  font-size: 26px;
+  color: #ff8b00;
+  margin-bottom: 8px;
+}
+
+.ach-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ff8b00;
+}
+
+.ach-desc {
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.ach-button {
+  padding: 8px;
+  width: 100%;
+  background: white;
+  border: 1px solid #ff8b00;
+  border-radius: 10px;
+  font-weight: 600;
+}
