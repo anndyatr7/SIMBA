@@ -61,6 +61,7 @@ body {
 .simba {
   font-size: 1.3rem;
   color: var(--darkblue);
+  font-weight: bold;
 }
 
 .nav-right {
@@ -68,6 +69,7 @@ body {
   display: flex;
   justify-content: space-between;
 }
+/* NAVBAR END */
 
 .hero {
   margin-top: 100px;
@@ -79,10 +81,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.content p {
-  padding: 0 3rem;
+  margin-top: 40px;
 }
 
 .photo {
@@ -91,6 +90,21 @@ body {
   box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
 }
 
+.deskripsi {
+  margin-left: 80px;
+  padding-right: 50px;
+}
+
+.deskripsi h3 {
+  font-size: 30px;
+  color: var(--darkblue);
+}
+
+.deskripsi-poin h3 {
+  margin-top: 25px;
+}
+
+/* LAYANAN */
 .layanan {
   padding: 0 5%;
   margin-top: 4rem;

@@ -161,5 +161,47 @@
 
 </div>
 
+<!-- MODAL SWITCH LAYANAN ANAK -->
+ <div id="modalAnak" class="modal-overlay">
+    <div class="modal-box">
+
+        <h4>Halo &lt;nama ibu&gt; !<br>Pilih Jagoan/Princess kamu~</h4>
+
+        <div class="child-options">
+
+            <!-- Anak yg sudah terdaftar -->
+            <div class="child-card">
+                <div class="icon-box">
+                    <i class="fa-regular fa-face-smile"></i>
+                </div>
+                <span class="child-name">Anin</span>
+            </div>
+
+            <!-- Tombol tambah anak -->
+            <div class="child-card">
+                <div class="icon-box">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="child-name">Tambah</span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const modalAnak = document.getElementById("modalAnak");
+    const openSwitch = document.querySelector(".switch-btn");
+
+    openSwitch.addEventListener("click", () => {
+        modalAnak.style.display = "flex";
+    });
+
+    modalAnak.addEventListener("click", (e) => {
+        modalAnak.style.display = "none";
+    });
+</script>
+
 </body>
 </html>

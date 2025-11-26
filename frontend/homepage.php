@@ -25,7 +25,7 @@
         <div class="nav-left">
             <img src="../img/logo.jpg" alt="ini logo" class="logo">
             <div class="Judul">
-                <a href="#" class="simba">SIMBA</a>
+                <a href="homepage.php" class="simba">SIMBA</a>
                 <p>Sistem Informasi Ibu dan Anak</p>
             </div>
         </div>
@@ -39,10 +39,21 @@
 
     <!-- Hero Section -->
      <section class="hero" id="home">
-        <h1>Selamat Datang di Simba!</h1>
+        <h1>Selamat Datang di SIMBA!</h1>
         <main class="content">
             <img src="../img/klara-kulikova-o1rq5GwVorY-unsplash.jpg" alt="ini foto" class="photo">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minus, distinctio. Eos illum ducimus dolores, est praesentium, inventore, unde sunt quia dolorem provident reprehenderit doloremque sint vitae veniam! Eaque quam at nobis! Obcaecati enim nihil, aperiam impedit sint quos placeat quaerat?</p>
+            <div class="deskripsi">
+                <h3>Layanan Kesehatan Ibu dan Anak</h3>
+                <p>SIMBA menyediakan layanan pemeriksaan kesehatan untuk ibu hamil dan anak-anak dengan tenaga kesehatan profesional.</p>
+                <div class="deskripsi-poin">
+                    <h3>✔ Tenaga Profesional</h3>
+                    <p>Didukung oleh bidan dan perawan berpengalaman</p>
+                </div>
+                <div class="deskripsi-poin">
+                    <h3>✔ Gratis untuk Semua</h3>
+                    <p>Tidak ada biaya untuk pemeriksaan rutin</p>
+                </div>
+            </div>
         </main>
      </section>
      <!-- Hero Section End -->
