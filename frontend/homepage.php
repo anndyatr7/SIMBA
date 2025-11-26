@@ -128,7 +128,7 @@
             <div class="modal-box">
                 <h2>Login ke Layanan Ibu</h2>
                 <label>NIK</label>
-                <input type="text" placeholder="Masukkan NIK" name="NIK">
+                <input type="text" placeholder="Masukkan NIK" name="nik">
                 <label >Password</label>
                 <input type="password" placeholder="Masukkan Password" name="password">
                 <button class="login-submit" name="login">Login</button>
@@ -144,7 +144,7 @@
             <div class="modal-box">
                 <h2>Login ke Layanan Anak</h2>
                 <label>NIK</label>
-                <input type="text" placeholder="Masukkan NIK" name="NIK">
+                <input type="text" placeholder="Masukkan NIK" name="nik">
                 <label >Password</label>
                 <input type="password" placeholder="Masukkan Password" name="password">
                 <button class="login-submit" name="login">Login</button>

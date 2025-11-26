@@ -1,6 +1,14 @@
+<?php
+session_start();
+require "../backend/koneksi.php";
+
+// Ambil semua user untuk dropdown
+$users_query = "SELECT id_user, nama_user, nik FROM user ORDER BY nama_user";
+$users_result = mysqli_query($koneksi, $users_query);
+?>
 <!DOCTYPE html>
 <html lang="en">
-<he>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -26,13 +34,6 @@
             color: rgba(0, 0, 0, 0.5) !important;
             font-weight: 500;
         }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 25px;
-        }
     </style>
     <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
 </head>
@@ -48,8 +49,8 @@
         </div>
 
         <div class="nav-right">
-            <a href="#home">Home</a>
-            <a href="#layanan">Layanan</a>
+            <a href="admin-dashboard-ibu.php">Dashboard</a>
+            <a href="../backend/logout.php">Logout</a>
         </div>
     </nav>
     <!-- NavBar End -->
@@ -67,21 +68,36 @@
                 </ul>
             </div>
             <div class="card-body p-4">
-                <form action="">
+                <form action="../backend/tambah-riwayat.php" method="POST">
+
+                    <!-- Pilih User -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <label for="id_user">Pilih Ibu Hamil</label>
+                            <select class="form-select" name="id_user" required>
+                                <option value="">-- Pilih Ibu Hamil --</option>
+                                <?php while($user = mysqli_fetch_assoc($users_result)): ?>
+                                    <option value="<?= $user['id_user'] ?>">
+                                        <?= $user['nama_user'] ?> (NIK: <?= $user['nik'] ?>)
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+                    </div>
 
                     <!-- ROW 1 -->
                     <div class="row g-4">
                         <div class="col-4">
                             <label for="tb">Tinggi Badan</label>
-                            <input type="text" class="form-control" placeholder="...cm" name="tb">
+                            <input type="number" step="0.01" class="form-control" placeholder="...cm" name="tb" required>
                         </div>
                         <div class="col-4">
                             <label for="bb">Berat Badan</label>
-                            <input type="text" class="form-control" placeholder="...kg" name="bb">
+                            <input type="number" step="0.01" class="form-control" placeholder="...kg" name="bb" required>
                         </div>
                         <div class="col-4">
                             <label for="tenxi">Tekanan Darah</label>
-                            <input type="text" class="form-control" placeholder="Tekanan Darah" name="tenxi">
+                            <input type="text" class="form-control" placeholder="120/80" name="tenxi" required>
                         </div>
                     </div>
 
@@ -89,15 +105,15 @@
                     <div class="row g-4 mt-1">
                         <div class="col-4">
                             <label for="usiahamil">Usia Kehamilan</label>
-                            <input type="text" class="form-control" placeholder="...minggu" name="usiahamil">
+                            <input type="number" class="form-control" placeholder="...minggu" name="usiahamil" required>
                         </div>
                         <div class="col-4">
                             <label for="fundus">Tinggi Fundus Uterus</label>
-                            <input type="text" class="form-control" placeholder="...cm" name="fundus">
+                            <input type="number" step="0.01" class="form-control" placeholder="...cm" name="fundus" required>
                         </div>
                         <div class="col-4">
                             <label for="denyut">Denyut Jantung Bayi</label>
-                            <input type="text" class="form-control" placeholder="...kali/menit" name="denyut">
+                            <input type="number" class="form-control" placeholder="...kali/menit" name="denyut" required>
                         </div>
                     </div>
 
@@ -114,6 +130,7 @@
                                     <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Pusing"> Pusing</label></li>
                                     <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Kaki Bengkak"> Kaki Bengkak</label></li>
                                     <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Nyeri Pinggang"> Nyeri Pinggang</label></li>
+                                    <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Tidak Ada"> Tidak Ada</label></li>
                                 </ul>
                             </div>
                             <input type="hidden" name="keluhan" id="keluhanInput">
@@ -121,22 +138,22 @@
                         <div class="col-3 text-start">
                            <label>Aktivitas Bayi</label>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="aktif" value="aktif">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="aktif" value="Aktif" required>
                                 <label class="form-check-label" for="aktif">Aktif</label>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="tenang" value="tenang">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="tenang" value="Tenang">
                                 <label class="form-check-label" for="tenang">Tenang</label>
                             </div>
                         </div>
                         <div class="col-3 text-start">
                             <label>Tablet TTD Diberikan</label>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="ya" value="ya">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="ya" value="Ya" required>
                                 <label class="form-check-label" for="ya">Ya</label>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="tidak" value="tidak">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="tidak" value="Tidak">
                                 <label class="form-check-label" for="tidak">Tidak</label>
                             </div>
                         </div>
@@ -145,10 +162,10 @@
                     <!-- ROW 5 -->
                     <div class="mt-4">
                         <label>Catatan Dokter</label>
-                        <textarea class="form-control" name="alasan" rows="3"></textarea>
+                        <textarea class="form-control" name="alasan" rows="3" required></textarea>
                     </div>
 
-                    <a href="admin-riwayat.php" type="submit" class="btn btn-primary mt-5" style="width: 50%;">Tambah</a>
+                    <button type="submit" name="tambah_riwayat" class="btn btn-primary mt-5" style="width: 50%;">Tambah</button>
                 </form>
             </div>
         </div>
@@ -164,7 +181,7 @@
                 document.querySelectorAll(".keluhanCheck:checked").forEach(x => {
                     selected.push(x.value);
                 });
-                document.getElementById("keluhanInput").value = selected.join(",");
+                document.getElementById("keluhanInput").value = selected.join(", ");
             });
         });
     </script>

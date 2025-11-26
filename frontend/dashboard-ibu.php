@@ -1,3 +1,47 @@
+<?php
+session_start();
+require "../backend/koneksi.php";
+
+// Cek apakah user sudah login
+if(!isset($_SESSION['id_user'])){
+    header("location: homepage.php");
+    exit;
+}
+
+$id_user = $_SESSION['id_user'];
+
+// Ambil data user
+$user_query = "SELECT * FROM user WHERE id_user = $id_user";
+$user_result = mysqli_query($koneksi, $user_query);
+$user = mysqli_fetch_assoc($user_result);
+
+// Ambil riwayat pemeriksaan terakhir
+$riwayat_query = "SELECT * FROM riwayat_pemeriksaan WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
+$riwayat_result = mysqli_query($koneksi, $riwayat_query);
+$riwayat_terakhir = mysqli_fetch_assoc($riwayat_result);
+
+// Hitung total pemeriksaan
+$total_query = "SELECT COUNT(*) as total FROM riwayat_pemeriksaan WHERE id_user = $id_user";
+$total_result = mysqli_query($koneksi, $total_query);
+$total_data = mysqli_fetch_assoc($total_result);
+$total_pemeriksaan = $total_data['total'];
+
+// Hitung usia kehamilan (dari riwayat terakhir)
+$usia_kehamilan = $riwayat_terakhir ? $riwayat_terakhir['usia_kehamilan'] . " Minggu" : "Belum Ada Data";
+
+// Status kehamilan berdasarkan pemeriksaan terakhir
+$status_kehamilan = "Belum Ada Data";
+if($riwayat_terakhir){
+    $tekanan = explode('/', $riwayat_terakhir['tekanan_darah']);
+    $sistol = (int)$tekanan[0];
+    
+    if($sistol < 140 && $riwayat_terakhir['denyut_jantung'] >= 120 && $riwayat_terakhir['denyut_jantung'] <= 160){
+        $status_kehamilan = "Baik";
+    } else {
+        $status_kehamilan = "Perlu Perhatian";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,13 +76,13 @@
 
     <div class="right">
         <div class="profile">
-            <div class="name">nama</div>
-            <div class="email">email</div>
+            <div class="name"><?= $user['nama_user'] ?></div>
+            <div class="email"><?= $user['email'] ?></div>
         </div>
 
-        <button class="logout-btn">
+        <a href="../backend/logout.php" class="logout-btn" style="text-decoration: none; color: inherit;">
             Keluar
-        </button>
+        </a>
     </div>
 </div>
 
@@ -59,7 +103,7 @@
 
 <!-- WELCOME BANNER -->
 <div class="welcome-banner">
-    <h4>Selamat Datang, nama! 👋</h4>
+    <h4>Selamat Datang, <?= $user['nama_user'] ?>! 👋</h4>
     <p>Pantau kesehatan kehamilan Anda dan dapatkan informasi terkini tentang layanan posyandu</p>
 </div>
 
@@ -68,20 +112,21 @@
 
     <!-- KIRI -->
     <div class="left-announcement-box">
-        <h4 class="ann-title">Announcement</h4>
+        <h4 class="ann-title">Pemeriksaan Terakhir</h4>
 
+        <?php if($riwayat_terakhir): ?>
         <div class="ann-card pink-card">
             <div class="pink-icon">
                 <i class="fa-regular fa-calendar"></i>
             </div>
 
             <div class="ann-content">
-                <h5>judul?</h5>
-                <p>dokter?</p>
-                <span class="ann-date">jadwal? · waktu?</span>
+                <h5>Pemeriksaan Rutin</h5>
+                <p><?= date('d F Y', strtotime($riwayat_terakhir['tanggal_periksa'])) ?></p>
+                <span class="ann-date">Usia Kehamilan: <?= $riwayat_terakhir['usia_kehamilan'] ?> minggu</span>
             </div>
 
-            <span class="ann-badge">hari?</span>
+            <span class="ann-badge"><?= date('d M', strtotime($riwayat_terakhir['tanggal_periksa'])) ?></span>
         </div>
 
         <div class="ann-card blue-card">
@@ -90,11 +135,15 @@
             </div>
 
             <div class="ann-content">
-                <h5>Pesan Dokter</h5>
-                <p>Dr. Nathania</p>
-                <p>Lorem Ipsum hdgasdg ashdgwegh asjdgdbb dsfhbhfhe ubisdjjjjnffff ffffffffff ffffffff ffffffff ffffffeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeeebj fdddh Lorem Ipsum hdgasdg ashdgwegh asjdgdbb dsfhbhfhe ubisdjjjjnffff ffffffffff ffffffff ffffffff ffffffeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeeebj fdddh Lorem Ipsum hdgasdg ashdgwegh asjdgdbb dsfhbhfhe ubisdjjjjnffff ffffffffff ffffffff ffffffff ffffffeeeeeeeeeee eeeeeeeeeeeeeeeeeeeeeebj fdddh</p>
+                <h5>Catatan Dokter</h5>
+                <p><?= $riwayat_terakhir['catatan_dokter'] ?></p>
             </div>
         </div>
+        <?php else: ?>
+        <div class="alert alert-info">
+            Belum ada riwayat pemeriksaan. Silakan kunjungi posyandu untuk pemeriksaan pertama Anda.
+        </div>
+        <?php endif; ?>
     </div>
 
     <!-- KANAN -->
@@ -106,25 +155,34 @@
             <div class="info-card pink-card2">
                 <div class="info-icon"><i class="fa-regular fa-heart"></i></div>
                 <div class="info-label">Usia Kehamilan</div>
-                <div class="info-value">1 hari</div>
+                <div class="info-value"><?= $usia_kehamilan ?></div>
             </div>
 
             <div class="info-card purple-card2">
                 <div class="info-icon"><i class="fa-regular fa-calendar-check"></i></div>
                 <div class="info-label">Kunjungan Berikutnya</div>
-                <div class="info-value">kapan yaa</div>
+                <div class="info-value">
+                    <?php 
+                    if($riwayat_terakhir){
+                        $next_date = date('d M Y', strtotime($riwayat_terakhir['tanggal_periksa'] . ' +30 days'));
+                        echo $next_date;
+                    } else {
+                        echo "Belum Ada";
+                    }
+                    ?>
+                </div>
             </div>
 
             <div class="info-card blue-card2">
                 <div class="info-icon"><i class="fa-solid fa-heart-pulse"></i></div>
                 <div class="info-label">Status Kehamilan</div>
-                <div class="info-value">baik or no</div>
+                <div class="info-value"><?= $status_kehamilan ?></div>
             </div>
 
             <div class="info-card orange-card2">
                 <div class="info-icon"><i class="fa-solid fa-file-medical"></i></div>
                 <div class="info-label">Pemeriksaan</div>
-                <div class="info-value">brp kali hayooo</div>
+                <div class="info-value"><?= $total_pemeriksaan ?> Kali</div>
             </div>
 
         </div>
@@ -165,7 +223,7 @@
  <div id="modalAnak" class="modal-overlay">
     <div class="modal-box">
 
-        <h4>Halo &lt;nama ibu&gt; !<br>Pilih Jagoan/Princess kamu~</h4>
+        <h4>Halo <?= $user['nama_user'] ?> !<br>Pilih Jagoan/Princess kamu~</h4>
 
         <div class="child-options">
 
@@ -174,7 +232,7 @@
                 <div class="icon-box">
                     <i class="fa-regular fa-face-smile"></i>
                 </div>
-                <span class="child-name">Anin</span>
+                <span class="child-name">Coming Soon</span>
             </div>
 
             <!-- Tombol tambah anak -->
@@ -199,7 +257,9 @@
     });
 
     modalAnak.addEventListener("click", (e) => {
-        modalAnak.style.display = "none";
+        if(e.target === modalAnak){
+            modalAnak.style.display = "none";
+        }
     });
 </script>
 
