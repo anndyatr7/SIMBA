@@ -49,8 +49,7 @@ $result = mysqli_query($koneksi, $query);
         </div>
 
         <div class="nav-right">
-            <a href="#home">Home</a>
-            <a href="#layanan">Layanan</a>
+            <a href="../backend/logout.php">LogOut</a>
         </div>
     </nav>
     <!-- NavBar End -->
