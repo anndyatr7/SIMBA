@@ -1,21 +1,23 @@
-<?php
-session_start();
+<?php 
 require "../backend/koneksi.php";
 
-// Ambil semua riwayat pemeriksaan dengan join ke tabel user
-$query = "SELECT r.*, u.nama_user, u.nik 
-          FROM riwayat_pemeriksaan r 
-          JOIN user u ON r.id_user = u.id_user 
-          ORDER BY r.tanggal_periksa DESC";
+$id_ibu = $_GET['id_user'];
+
+$query = "SELECT * FROM user WHERE id_user='$id_ibu'";
 $result = mysqli_query($koneksi, $query);
+$data_ibu = mysqli_fetch_assoc($result);
+
+$query_riwayat = "SELECT * FROM riwayat_pemeriksaan WHERE id_user='$id_ibu'";
+$riwayat = mysqli_query($koneksi, $query_riwayat);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<he>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Riwayat Pemeriksaan</title>
+    <title>Tambah Riwayat</title>
     <style>
         body{
             margin-top: 90px;
@@ -37,17 +39,9 @@ $result = mysqli_query($koneksi, $query);
             color: rgba(0, 0, 0, 0.5) !important;
             font-weight: 500;
         }
-        
-        .card-riwayat {
-            margin-bottom: 20px;
-            border-left: 4px solid #ff68c3;
-        }
-        
-        .badge-status {
-            font-size: 0.8rem;
-        }
     </style>
     <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
+    <link rel="stylesheet" href="styling/buatadmin.css?v<?php echo time();?>" >
 </head>
 <body>
     <!-- NavBar Start -->
@@ -61,8 +55,7 @@ $result = mysqli_query($koneksi, $query);
         </div>
 
         <div class="nav-right">
-            <a href="admin-dashboard-ibu.php">Dashboard</a>
-            <a href="../backend/logout.php">Logout</a>
+            <a href="admin-dashboard-ibu.php">Kembali</a>
         </div>
     </nav>
     <!-- NavBar End -->
@@ -81,90 +74,56 @@ $result = mysqli_query($koneksi, $query);
                 </ul>
             </div>
 
+            <?php 
+            if(mysqli_num_rows($riwayat) > 0){
+                while($row = mysqli_fetch_assoc($riwayat)){
+            ?>
             <div class="card-body p-4">
-                <?php if(mysqli_num_rows($result) > 0): ?>
-                    <?php while($row = mysqli_fetch_assoc($result)): ?>
-                        <div class="card card-riwayat">
-                            <div class="card-body text-start">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h5 class="card-title mb-3">
-                                            <i class="bi bi-person-circle"></i> <?= $row['nama_user'] ?>
-                                            <span class="badge bg-secondary ms-2">NIK: <?= $row['nik'] ?></span>
-                                        </h5>
-                                        
-                                        <div class="row mb-2">
-                                            <div class="col-md-6">
-                                                <small class="text-muted">📅 Tanggal Pemeriksaan:</small>
-                                                <p class="mb-1"><strong><?= date('d F Y', strtotime($row['tanggal_periksa'])) ?></strong></p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <small class="text-muted">🤰 Usia Kehamilan:</small>
-                                                <p class="mb-1"><strong><?= $row['usia_kehamilan'] ?> minggu</strong></p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row mb-2">
-                                            <div class="col-md-4">
-                                                <small class="text-muted">Tinggi Badan:</small>
-                                                <p class="mb-0"><?= $row['tinggi_badan'] ?> cm</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">Berat Badan:</small>
-                                                <p class="mb-0"><?= $row['berat_badan'] ?> kg</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">Tekanan Darah:</small>
-                                                <p class="mb-0"><?= $row['tekanan_darah'] ?></p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="row mb-2">
-                                            <div class="col-md-4">
-                                                <small class="text-muted">Tinggi Fundus:</small>
-                                                <p class="mb-0"><?= $row['tinggi_fundus'] ?> cm</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">Denyut Jantung Bayi:</small>
-                                                <p class="mb-0"><?= $row['denyut_jantung'] ?> /menit</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <small class="text-muted">Aktivitas Bayi:</small>
-                                                <p class="mb-0"><?= $row['aktivitas_bayi'] ?></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-4">
-                                        <div class="mb-3">
-                                            <small class="text-muted">💊 Tablet TTD:</small>
-                                            <?php if($row['tablet_ttd'] == 'Ya'): ?>
-                                                <span class="badge bg-success ms-2">Diberikan</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-danger ms-2">Tidak</span>
-                                            <?php endif; ?>
-                                        </div>
-                                        
-                                        <div class="mb-3">
-                                            <small class="text-muted">😷 Keluhan:</small>
-                                            <p class="mb-0"><strong><?= $row['keluhan'] ?></strong></p>
-                                        </div>
-                                        
-                                        <div>
-                                            <small class="text-muted">📝 Catatan Dokter:</small>
-                                            <p class="mb-0" style="font-size: 0.9rem;"><?= $row['catatan_dokter'] ?></p>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="card card-riwayat">
+                    <div class="card-body" style="height:fit-content">
+                        <div class="isi-data">
+                            <div class="keterangan">
+                                <p>Tanggal Periksa</p>
+                                <p>Tinggi Badan</p>
+                                <p>Berat Badan</p>
+                                <p>Tekanan Darah</p>
+                                <p>Usia Kehamilan</p>
+                                <p>Tinggi Fundus</p>
+                                <p>Denyut Jantung</p>
+                                <p>Keluhan</p>
+                                <p>Aktivitas Bayi</p>
+                                <p>Tablet TTD</p>
+                                <p>Catatan Dokter</p>
+                            </div>
+                            <div class="datanya">
+                                <p><?= $row['tanggal_periksa']; ?></p>
+                                <p><?= $row['tinggi_badan']; ?></p>
+                                <p><?= $row['berat_badan']; ?></p>
+                                <p><?= $row['tekanan_darah']; ?></p>
+                                <p><?= $row['usia_kehamilan']; ?></p>
+                                <p><?= $row['tinggi_fundus']; ?></p>
+                                <p><?= $row['denyut_jantung']; ?></p>
+                                <p><?= $row['keluhan']; ?></p>
+                                <p><?= $row['aktivitas_bayi']; ?></p>
+                                <p><?= $row['tablet_ttd']; ?></p>
+                                <p><?= $row['catatan_dokter']; ?></p>
                             </div>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> Belum ada riwayat pemeriksaan yang tercatat.
                     </div>
-                <?php endif; ?>
+                </div>
             </div>
+            <?php }
+            } else{
+            ?>
+            <div class="card-body p-4">
+                <div class="card card-riwayat">
+                    <div class="card-body" style="height:fit-content">
+                        <p>Belum Ada Riwayat Pemeriksaan</p>
+                    </div>
+                </div>
+            </div>
+            <?php }?>
+            
 
         </div>
     </div>

@@ -1,3 +1,10 @@
+<?php 
+require "../backend/koneksi.php";
+
+$query = "SELECT * FROM user ORDER BY id_user DESC";
+$result = mysqli_query($koneksi, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <he>
@@ -27,6 +34,8 @@
         }
     </style>
     <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
+    <link rel="stylesheet" href="styling/buatadmin.css?v<?php echo time();?>">
+
 </head>
 <body>
     <!-- NavBar Start -->
@@ -40,7 +49,8 @@
         </div>
 
         <div class="nav-right">
-            <a href="#">Buat Pengumuman</a>
+            <a href="#home">Home</a>
+            <a href="#layanan">Layanan</a>
         </div>
     </nav>
     <!-- NavBar End -->
@@ -59,9 +69,19 @@
                 </ul>
             </div>
 
-            <div class="card-body p-4">
-                <p class="card-text">looping data</p>
+            <?php 
+            $no = 1;
+            while($row = mysqli_fetch_assoc($result)){
+            ?>
+            <div class="loop-data">
+                <p class="card-text"><?= $no++; ?></p>
+                <p class="card-text"><?= $row['nama_user'] ?></p>
+                <p class="card-text"><?= $row['alamat'] ?></p>
+                <a href="admin-riwayat.php?id_user=<?= $row['id_user'] ?>">
+                    Lihat Riwayat
+                </a>
             </div>
+            <?php }?>
 
         </div>
     </div>

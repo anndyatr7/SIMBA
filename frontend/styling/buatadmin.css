@@ -1,0 +1,18 @@
+.loop-data {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+}
+
+.isi-data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.keterangan {
+  font-weight: bold;
+}
+
+.datanya {
+  text-align: left;
+}

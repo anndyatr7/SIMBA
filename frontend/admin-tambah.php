@@ -1,14 +1,38 @@
-<?php
-session_start();
+<?php 
 require "../backend/koneksi.php";
 
-// Ambil semua user untuk dropdown
-$users_query = "SELECT id_user, nama_user, nik FROM user ORDER BY nama_user";
-$users_result = mysqli_query($koneksi, $users_query);
+$id_ibu=$_GET['id_user'];
+
+$queryi = "SELECT * FROM user WHERE id_user='$id_ibu'";
+$ibu = mysqli_query($koneksi, $queryi);
+$data_ibu = mysqli_fetch_assoc($ibu);
+
+if(isset($_POST['simpan'])){
+    $tanggal = $_POST['tanggal'];
+    $bb = $_POST['berat_badan'];
+    $tb = $_POST['tinggi_badan'];
+    $td = $_POST['tekanan_darah'];
+    $catatan = $_POST['catatan'];
+
+    $$query = mysqli_query($conn, "
+        INSERT INTO pemeriksaan(id_ibu, tanggal, berat_badan, tinggi_badan, tekanan_darah, catatan)
+        VALUES('$id_ibu', '$tanggal', '$bb', '$tb', '$td', '$catatan')
+    ");
+
+    if($query){
+        echo "<script>
+                alert('Data pemeriksaan berhasil ditambahkan!');
+                window.location='admin-riwayat.php?id=$id_ibu';
+              </script>";
+    } else {
+        echo "<script>alert('Gagal menyimpan data!');</script>";
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<he>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -34,6 +58,13 @@ $users_result = mysqli_query($koneksi, $users_query);
             color: rgba(0, 0, 0, 0.5) !important;
             font-weight: 500;
         }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
     </style>
     <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
 </head>
@@ -49,8 +80,8 @@ $users_result = mysqli_query($koneksi, $users_query);
         </div>
 
         <div class="nav-right">
-            <a href="admin-dashboard-ibu.php">Dashboard</a>
-            <a href="../backend/logout.php">Logout</a>
+            <a href="#home">Home</a>
+            <a href="#layanan">Layanan</a>
         </div>
     </nav>
     <!-- NavBar End -->
@@ -68,36 +99,21 @@ $users_result = mysqli_query($koneksi, $users_query);
                 </ul>
             </div>
             <div class="card-body p-4">
-                <form action="../backend/tambah-riwayat.php" method="POST">
-
-                    <!-- Pilih User -->
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <label for="id_user">Pilih Ibu Hamil</label>
-                            <select class="form-select" name="id_user" required>
-                                <option value="">-- Pilih Ibu Hamil --</option>
-                                <?php while($user = mysqli_fetch_assoc($users_result)): ?>
-                                    <option value="<?= $user['id_user'] ?>">
-                                        <?= $user['nama_user'] ?> (NIK: <?= $user['nik'] ?>)
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
-                        </div>
-                    </div>
+                <form action="">
 
                     <!-- ROW 1 -->
                     <div class="row g-4">
                         <div class="col-4">
                             <label for="tb">Tinggi Badan</label>
-                            <input type="number" step="0.01" class="form-control" placeholder="...cm" name="tb" required>
+                            <input type="text" class="form-control" placeholder="...cm" name="tb">
                         </div>
                         <div class="col-4">
                             <label for="bb">Berat Badan</label>
-                            <input type="number" step="0.01" class="form-control" placeholder="...kg" name="bb" required>
+                            <input type="text" class="form-control" placeholder="...kg" name="bb">
                         </div>
                         <div class="col-4">
                             <label for="tenxi">Tekanan Darah</label>
-                            <input type="text" class="form-control" placeholder="120/80" name="tenxi" required>
+                            <input type="text" class="form-control" placeholder="Tekanan Darah" name="tenxi">
                         </div>
                     </div>
 
@@ -105,15 +121,15 @@ $users_result = mysqli_query($koneksi, $users_query);
                     <div class="row g-4 mt-1">
                         <div class="col-4">
                             <label for="usiahamil">Usia Kehamilan</label>
-                            <input type="number" class="form-control" placeholder="...minggu" name="usiahamil" required>
+                            <input type="text" class="form-control" placeholder="...minggu" name="usiahamil">
                         </div>
                         <div class="col-4">
                             <label for="fundus">Tinggi Fundus Uterus</label>
-                            <input type="number" step="0.01" class="form-control" placeholder="...cm" name="fundus" required>
+                            <input type="text" class="form-control" placeholder="...cm" name="fundus">
                         </div>
                         <div class="col-4">
                             <label for="denyut">Denyut Jantung Bayi</label>
-                            <input type="number" class="form-control" placeholder="...kali/menit" name="denyut" required>
+                            <input type="text" class="form-control" placeholder="...kali/menit" name="denyut">
                         </div>
                     </div>
 
@@ -130,7 +146,6 @@ $users_result = mysqli_query($koneksi, $users_query);
                                     <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Pusing"> Pusing</label></li>
                                     <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Kaki Bengkak"> Kaki Bengkak</label></li>
                                     <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Nyeri Pinggang"> Nyeri Pinggang</label></li>
-                                    <li><label class="dropdown-item"><input type="checkbox" class="me-2 keluhanCheck" value="Tidak Ada"> Tidak Ada</label></li>
                                 </ul>
                             </div>
                             <input type="hidden" name="keluhan" id="keluhanInput">
@@ -138,22 +153,22 @@ $users_result = mysqli_query($koneksi, $users_query);
                         <div class="col-3 text-start">
                            <label>Aktivitas Bayi</label>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="aktif" value="Aktif" required>
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="aktif" value="aktif">
                                 <label class="form-check-label" for="aktif">Aktif</label>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="tenang" value="Tenang">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="tenang" value="tenang">
                                 <label class="form-check-label" for="tenang">Tenang</label>
                             </div>
                         </div>
                         <div class="col-3 text-start">
                             <label>Tablet TTD Diberikan</label>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="ya" value="Ya" required>
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="ya" value="ya">
                                 <label class="form-check-label" for="ya">Ya</label>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="tidak" value="Tidak">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="tidak" value="tidak">
                                 <label class="form-check-label" for="tidak">Tidak</label>
                             </div>
                         </div>
@@ -162,10 +177,10 @@ $users_result = mysqli_query($koneksi, $users_query);
                     <!-- ROW 5 -->
                     <div class="mt-4">
                         <label>Catatan Dokter</label>
-                        <textarea class="form-control" name="alasan" rows="3" required></textarea>
+                        <textarea class="form-control" name="alasan" rows="3"></textarea>
                     </div>
 
-                    <button type="submit" name="tambah_riwayat" class="btn btn-primary mt-5" style="width: 50%;">Tambah</button>
+                    <a href="admin-riwayat.php" type="submit" class="btn btn-primary mt-5" style="width: 50%;">Tambah</a>
                 </form>
             </div>
         </div>
@@ -181,7 +196,7 @@ $users_result = mysqli_query($koneksi, $users_query);
                 document.querySelectorAll(".keluhanCheck:checked").forEach(x => {
                     selected.push(x.value);
                 });
-                document.getElementById("keluhanInput").value = selected.join(", ");
+                document.getElementById("keluhanInput").value = selected.join(",");
             });
         });
     </script>

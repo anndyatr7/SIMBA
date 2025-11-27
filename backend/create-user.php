@@ -2,48 +2,51 @@
 session_start();
 require "koneksi.php";
 
-if(isset($_POST['nama'])){
-    $nama = $_POST["nama_user"];
-    $password = $_POST["pass"];
-    $nik = $_POST["nik"];
-    $email = $_POST["email"];
-    $noHP = $_POST["no_hp"];
-    switch($_POST["goldar"]){
-        case "A" :
-            $goldar = "A";
-            break;
-        case "B" :
-            $goldar = "B";
-            break;
-        case "AB" :
-            $goldar = "AB";
-            break;
-        case "O" :
-            $goldar = "O";
-            break;
-    }
-    switch($_POST["gender"]){
-        case "1" :
-            $gender = "Perempuan";
-            break;
-        case "2" :
-            $gender = "Laki-laki";
-            break;
-    }
-    $tempatLahir = $_POST["tempat_lahir"];
-    $tanggalLahir = $_POST["tanggal_lahir"];
-    $alamat = $_POST["alamat"];
+if(isset($_POST['regis'])){
+    // PERBAIKAN: Nama variabel sesuai dengan name di form
+    $nama = mysqli_real_escape_string($koneksi, $_POST["nama"]);
+    $password = mysqli_real_escape_string($koneksi, $_POST["password"]);
+    $nik = mysqli_real_escape_string($koneksi, $_POST["nik"]);
+    $email = mysqli_real_escape_string($koneksi, $_POST["email"]);
+    $noHP = mysqli_real_escape_string($koneksi, $_POST["no_hp"]);
+    $goldar = mysqli_real_escape_string($koneksi, $_POST["goldar"]);
+    $gender = mysqli_real_escape_string($koneksi, $_POST["gender"]);
+    $tempatLahir = mysqli_real_escape_string($koneksi, $_POST["tempat_lahir"]);
+    $tanggalLahir = mysqli_real_escape_string($koneksi, $_POST["tanggal_lahir"]);
+    $alamat = mysqli_real_escape_string($koneksi, $_POST["alamat"]);
 
-    $query = "INSERT INTO peserta (id_user, nama_user, goldar, no_hp, tempat_lahir, ttl, alamat, email, password,gender,nik) 
-              VALUES ($id_user, '$nama', '$goldar', '$no_hp','$tempatLahir', $tanggalLahir, '$email','$password','$gender,'$nik'')";
+    // Cek apakah NIK sudah ada
+    $check = "SELECT id_user FROM user WHERE nik = '$nik'";
+    $check_result = mysqli_query($koneksi, $check);
+    
+    if(mysqli_num_rows($check_result) > 0){
+        echo "<script>
+                alert('NIK sudah terdaftar!');
+                window.location.href = '../frontend/registrasi.php';
+              </script>";
+        exit;
+    }
+    
+    // PERBAIKAN: Nama tabel dari 'peserta' menjadi 'user'
+    // PERBAIKAN: Sintaks SQL yang benar (hilangkan $id_user, itu auto increment)
+    // PERBAIKAN: Quote yang benar di VALUES
+    $query = "INSERT INTO user (nama_user, nik, email, password, no_hp, goldar, gender, tempat_lahir, ttl, alamat) 
+              VALUES ('$nama', '$nik', '$email', '$password', '$noHP', '$goldar', '$gender', '$tempatLahir', '$tanggalLahir', '$alamat')";
     
     $result = mysqli_query($koneksi, $query);
     
     if($result){
-        header("location: ../index.php");
+        echo "<script>
+                alert('Registrasi berhasil! Silakan login.');
+                window.location.href = '../frontend/homepage.php';
+              </script>";
+        exit;
     } else {
-        echo "Error: " . mysqli_error($koneksi);
+        echo "<script>
+                alert('Error: " . mysqli_error($koneksi) . "');
+                window.location.href = '../frontend/registrasi.php';
+              </script>";
+        exit;
     }
-    exit;
 }
 ?>

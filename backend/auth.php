@@ -1,75 +1,107 @@
 <?php
-// KODE KAMU
 require "koneksi.php";
 session_start();
-// Untuk Login
-// KODE KAMU
-if(isset($_POST['login'])){
-    $nik = $_POST['nik'];
-    $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE nik='$nik' AND password='$pass'";
-    $result = mysqli_query($koneksi,$sql);
+// ========================================
+// LOGIN USER
+// ========================================
+if(isset($_POST['login'])){
+    $nik = mysqli_real_escape_string($koneksi, $_POST['nik']);
+    $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+
+    // PERBAIKAN: Nama tabel dari 'users' menjadi 'user'
+    // PERBAIKAN: Variabel dari '$pass' menjadi '$password'
+    $sql = "SELECT * FROM user WHERE nik='$nik' AND password='$password'";
+    $result = mysqli_query($koneksi, $sql);
 
     if (mysqli_num_rows($result) > 0){
         $data = mysqli_fetch_assoc($result);
         $_SESSION['nik'] = $data['nik'];
         $_SESSION['id_user'] = $data['id_user'];
 
-        header('location:../dashboard-ibu.php');
+        // PERBAIKAN: Path file
+        header('location:../frontend/dashboard-ibu.php');
+        exit;
+    } else {
+        echo "<script>
+                alert('NIK atau Password salah!');
+                window.location.href = '../frontend/homepage.php';
+              </script>";
         exit;
     }
 }
  
-// Untuk Register
-// KODE KAMU
+// ========================================
+// REGISTER USER
+// ========================================
 if(isset($_POST['regis'])){
-    $nama = $_POST["nama_user"];
-    $password = $_POST["pass"];
-    $nik = $_POST["nik"];
-    $email = $_POST["email"];
-    $noHP = $_POST["no_hp"];
-    $goldar = $_POST["goldar"];
-    $gender = $_POST["gender"];
-    $tempatLahir = $_POST["tempat_lahir"];
-    $tanggalLahir = $_POST["tanggal_lahir"];
-    $alamat = $_POST["alamat"];
+    // PERBAIKAN: Sesuaikan dengan name di form registrasi.php
+    $nama = mysqli_real_escape_string($koneksi, $_POST["nama"]);
+    $password = mysqli_real_escape_string($koneksi, $_POST["password"]);
+    $nik = mysqli_real_escape_string($koneksi, $_POST["nik"]);
+    $email = mysqli_real_escape_string($koneksi, $_POST["email"]);
+    $noHP = mysqli_real_escape_string($koneksi, $_POST["no_hp"]);
+    $goldar = mysqli_real_escape_string($koneksi, $_POST["goldar"]);
+    $gender = mysqli_real_escape_string($koneksi, $_POST["gender"]);
+    $tempatLahir = mysqli_real_escape_string($koneksi, $_POST["tempat_lahir"]);
+    $tanggalLahir = mysqli_real_escape_string($koneksi, $_POST["tanggal_lahir"]);
+    $alamat = mysqli_real_escape_string($koneksi, $_POST["alamat"]);
     
+    // Cek apakah NIK sudah terdaftar
     $check = $koneksi->prepare("SELECT id_user FROM user WHERE nik = ?");
     $check->bind_param("s", $nik);
     $check->execute();
     $check->store_result();
 
     if($check->num_rows > 0){
-        echo "<script>alert('nik sudah ada!');
-                window.location.href = '../frontend/register.php';
-            </script>";
+        echo "<script>
+                alert('NIK sudah terdaftar!');
+                window.location.href = '../frontend/registrasi.php';
+              </script>";
+        exit;
     } else {
-        $stmt = $koneksi->prepare("INSERT INTO user (nama_user, goldar, no_hp, tempat_lahir, ttl, alamat, email, password, gender, nik) 
+        // PERBAIKAN: Urutan kolom sesuai database
+        $stmt = $koneksi->prepare("INSERT INTO user (nama_user, nik, email, password, no_hp, goldar, gender, tempat_lahir, ttl, alamat) 
                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssdsssss", $nama, $goldar, $noHP, $tempatLahir, $tanggalLahir, $alamat, $email, $password, $gender, $nik);
+        $stmt->bind_param("ssssssssss", $nama, $nik, $email, $password, $noHP, $goldar, $gender, $tempatLahir, $tanggalLahir, $alamat);
 
         if($stmt->execute()){
-            header("Location:../index.php");
+            echo "<script>
+                    alert('Registrasi berhasil! Silakan login.');
+                    window.location.href = '../frontend/homepage.php';
+                  </script>";
             exit;
         } else {
-            echo "terjadi kesalahan saat registrasi.";
+            echo "<script>
+                    alert('Terjadi kesalahan: " . $stmt->error . "');
+                    window.location.href = '../frontend/registrasi.php';
+                  </script>";
+            exit;
         }
         $stmt->close();
     }
     $check->close();
 }
 
-//BUAT ADMIN
+// ========================================
+// LOGIN ADMIN
+// ========================================
 if(isset($_POST['loginAdmin'])){
-    $nip = $_POST['NIP'];
-    $passwordAdmin = $_POST['passwordAdmin'];
+    $nip = mysqli_real_escape_string($koneksi, $_POST['NIP']);
+    $passwordAdmin = mysqli_real_escape_string($koneksi, $_POST['passwordAdmin']);
 
-    if($nip != '12345' && $passwordAdmin != 'Admin123'){
-        header("location:../frontend/homepage.php");
-    } else{
+    // PERBAIKAN: Logika if dibalik (sebelumnya salah)
+    if($nip == '12345' && $passwordAdmin == 'Admin123'){
+        $_SESSION['admin'] = true;
+        $_SESSION['nip'] = $nip;
         header("location:../frontend/admin-dashboard-ibu.php");
+        exit;
+    } else {
+        echo "<script>
+                alert('NIP atau Password Admin salah!');
+                window.location.href = '../frontend/homepage.php';
+              </script>";
+        exit;
     }
-    exit;
 }
 ?>
