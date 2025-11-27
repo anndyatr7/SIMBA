@@ -1,23 +1,36 @@
 <?php 
 require "../backend/koneksi.php";
 
+if(!isset($_GET['id_user'])){
+    header("location: admin-dashboard-ibu.php");
+    exit;
+}
+
 $id_ibu = $_GET['id_user'];
 
 $query = "SELECT * FROM user WHERE id_user='$id_ibu'";
 $result = mysqli_query($koneksi, $query);
 $data_ibu = mysqli_fetch_assoc($result);
 
-$query_riwayat = "SELECT * FROM riwayat_pemeriksaan WHERE id_user='$id_ibu'";
+if(!$data_ibu){
+    echo "<script>
+            alert('Data ibu tidak ditemukan!');
+            window.location.href = 'admin-dashboard-ibu.php';
+          </script>";
+    exit;
+}
+
+$query_riwayat = "SELECT * FROM riwayat_pemeriksaan WHERE id_user='$id_ibu' ORDER BY tanggal_periksa DESC";
 $riwayat = mysqli_query($koneksi, $query_riwayat);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<he>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Tambah Riwayat</title>
+    <title>Riwayat Pemeriksaan - <?= $data_ibu['nama_user'] ?></title>
     <style>
         body{
             margin-top: 90px;
@@ -66,12 +79,24 @@ $riwayat = mysqli_query($koneksi, $query_riwayat);
             <div class="card-header p-0">
                 <ul class="nav nav-tabs w-100 d-flex justify-content-center">
                     <li class="nav-item flex-fill text-center">
-                        <a class="nav-link active" href="admin-riwayat.php">Riwayat Pemeriksaan</a>
+                        <!-- PERBAIKAN: Tambahkan id_user di URL -->
+                        <a class="nav-link active" href="admin-riwayat.php?id_user=<?= $id_ibu ?>">Riwayat Pemeriksaan</a>
                     </li>
                     <li class="nav-item flex-fill text-center">
-                        <a style="background: white;" class="nav-link" href="admin-tambah.php">Tambah Riwayat Pemeriksaan</a>
+                        <!-- PERBAIKAN: Tambahkan id_user di URL -->
+                        <a style="background: white;" class="nav-link" href="admin-tambah.php?id_user=<?= $id_ibu ?>">Tambah Riwayat Pemeriksaan</a>
                     </li>
                 </ul>
+            </div>
+
+            <!-- Informasi Ibu -->
+            <div class="card-body p-4 bg-light">
+                <div class="text-start">
+                    <h5>Informasi Pasien</h5>
+                    <p class="mb-1"><strong>Nama:</strong> <?= $data_ibu['nama_user'] ?></p>
+                    <p class="mb-1"><strong>NIK:</strong> <?= $data_ibu['nik'] ?></p>
+                    <p class="mb-0"><strong>Alamat:</strong> <?= $data_ibu['alamat'] ?></p>
+                </div>
             </div>
 
             <?php 
@@ -96,13 +121,13 @@ $riwayat = mysqli_query($koneksi, $query_riwayat);
                                 <p>Catatan Dokter</p>
                             </div>
                             <div class="datanya">
-                                <p><?= $row['tanggal_periksa']; ?></p>
-                                <p><?= $row['tinggi_badan']; ?></p>
-                                <p><?= $row['berat_badan']; ?></p>
-                                <p><?= $row['tekanan_darah']; ?></p>
-                                <p><?= $row['usia_kehamilan']; ?></p>
-                                <p><?= $row['tinggi_fundus']; ?></p>
-                                <p><?= $row['denyut_jantung']; ?></p>
+                                <p><?= date('d F Y', strtotime($row['tanggal_periksa'])); ?></p>
+                                <p><?= $row['tinggi_badan']; ?> cm</p>
+                                <p><?= $row['berat_badan']; ?> kg</p>
+                                <p><?= $row['tekanan_darah']; ?> mmHg</p>
+                                <p><?= $row['usia_kehamilan']; ?> minggu</p>
+                                <p><?= $row['tinggi_fundus']; ?> cm</p>
+                                <p><?= $row['denyut_jantung']; ?> bpm</p>
                                 <p><?= $row['keluhan']; ?></p>
                                 <p><?= $row['aktivitas_bayi']; ?></p>
                                 <p><?= $row['tablet_ttd']; ?></p>
@@ -119,6 +144,7 @@ $riwayat = mysqli_query($koneksi, $query_riwayat);
                 <div class="card card-riwayat">
                     <div class="card-body" style="height:fit-content">
                         <p>Belum Ada Riwayat Pemeriksaan</p>
+                        <a href="admin-tambah.php?id_user=<?= $id_ibu ?>" class="btn btn-primary mt-2">Tambah Pemeriksaan Pertama</a>
                     </div>
                 </div>
             </div>
