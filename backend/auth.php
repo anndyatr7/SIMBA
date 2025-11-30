@@ -47,17 +47,22 @@ if(isset($_POST['regis'])){
     $tanggalLahir = mysqli_real_escape_string($koneksi, $_POST["tanggal_lahir"]);
     $alamat = mysqli_real_escape_string($koneksi, $_POST["alamat"]);
     
-    // Cek apakah NIK sudah terdaftar
-    $check = $koneksi->prepare("SELECT id_user FROM user WHERE nik = ?");
-    $check->bind_param("s", $nik);
-    $check->execute();
-    $check->store_result();
+        // Cek apakah NIK ada di user ATAU data_anak
+    $check = "SELECT 1 FROM user WHERE nik = ? 
+            UNION ALL 
+            SELECT 1 FROM data_anak WHERE nik = ? 
+            LIMIT 1";
 
-    if($check->num_rows > 0){
+    $check_stmt = mysqli_prepare($koneksi, $check);
+    mysqli_stmt_bind_param($check_stmt, "ss", $nik, $nik);
+    mysqli_stmt_execute($check_stmt);
+    $check_result = mysqli_stmt_get_result($check_stmt);
+
+    if(mysqli_num_rows($check_result) > 0){
         echo "<script>
-                alert('NIK sudah terdaftar!');
-                window.location.href = '../frontend/registrasi.php';
-              </script>";
+                alert('NIK sudah terdaftar di sistem!');
+                window.location.href = '../frontend/form-anak.php';
+            </script>";
         exit;
     } else {
         // PERBAIKAN: Urutan kolom sesuai database

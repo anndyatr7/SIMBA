@@ -1,3 +1,54 @@
+<?php
+session_start();
+require "../backend/koneksi.php";
+
+// Cek apakah user sudah login
+if(!isset($_SESSION['id_user'])){
+    header("location: login.php");
+    exit;
+}
+
+$id_user = $_SESSION['id_user']; // ID ibu yang login
+
+// Ambil ID anak dari URL
+if(!isset($_GET['id'])){
+    echo "<script>
+            alert('ID anak tidak ditemukan!');
+            window.location.href = 'dashboard-ibu.php';
+          </script>";
+    exit;
+}
+
+$id_anak = (int)$_GET['id'];
+
+// Ambil data anak DAN pastikan anak ini milik ibu yang login (PENTING untuk keamanan!)
+$anak_query = "SELECT * FROM data_anak WHERE id_anak = ? AND id_user = ?";
+$anak_stmt = mysqli_prepare($koneksi, $anak_query);
+mysqli_stmt_bind_param($anak_stmt, "ii", $id_anak, $id_user);
+mysqli_stmt_execute($anak_stmt);
+$anak_result = mysqli_stmt_get_result($anak_stmt);
+
+// Cek apakah data anak ditemukan
+if(mysqli_num_rows($anak_result) == 0){
+    echo "<script>
+            alert('Data anak tidak ditemukan atau bukan milik Anda!');
+            window.location.href = 'dashboard-ibu.php';
+          </script>";
+    exit;
+}
+
+$anak = mysqli_fetch_assoc($anak_result);
+
+// Ambil data ibu
+$user_query = "SELECT * FROM user WHERE id_user = ?";
+$user_stmt = mysqli_prepare($koneksi, $user_query);
+mysqli_stmt_bind_param($user_stmt, "i", $id_user);
+mysqli_stmt_execute($user_stmt);
+$user_result = mysqli_stmt_get_result($user_stmt);
+$user = mysqli_fetch_assoc($user_result);
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -52,7 +103,7 @@
 
 <!-- WELCOME -->
 <div class="welcome-banner">
-    <h4>Selamat Datang, nama! 👋</h4>
+    <h4>Haloo, <?= $anak['nama_anak'] ?>!</h4>
     <p>Pantau tumbuh kembang anak Anda dan kelola imunisasi dengan mudah</p>
 </div>
 

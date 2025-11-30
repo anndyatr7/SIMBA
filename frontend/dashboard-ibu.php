@@ -15,6 +15,10 @@ $user_query = "SELECT * FROM user WHERE id_user = $id_user";
 $user_result = mysqli_query($koneksi, $user_query);
 $user = mysqli_fetch_assoc($user_result);
 
+// data bayi
+$anak_query = "SELECT * FROM data_anak WHERE id_user = $id_user";
+$anak_result = mysqli_query($koneksi, $anak_query);
+
 // Ambil riwayat pemeriksaan terakhir
 $riwayat_query = "SELECT * FROM riwayat_ibu WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
 $riwayat_result = mysqli_query($koneksi, $riwayat_query);
@@ -227,21 +231,25 @@ if($riwayat_terakhir){
 
         <div class="child-options">
 
-            <!-- Anak yg sudah terdaftar -->
-            <div class="child-card">
-                <div class="icon-box">
-                    <i class="fa-regular fa-face-smile"></i>
-                </div>
-                <span class="child-name">Coming Soon</span>
-            </div>
+            <?php
+              if(mysqli_num_rows($anak_result) > 0)
+                mysqli_data_seek($anak_result, 0);
+                while($anak = mysqli_fetch_assoc($anak_result)): ?>
+                <a href="dashboard-anak.php?id=<?= $anak['id_anak'] ?>" class="child-card" style="text-decoration: none; color: inherit;">
+                    <div class="icon-box">
+                        <i class="fa-solid fa-baby"></i>
+                    </div>
+                    <span class="child-name"><?= $anak['nama_anak'] ?></span>
+                </a>
+            <?php endwhile; ?>
 
             <!-- Tombol tambah anak -->
-            <div class="child-card">
+            <a href="form-anak.php" class="child-card" style="text-decoration: none; color: inherit;">
                 <div class="icon-box">
                     <i class="fa-solid fa-plus"></i>
                 </div>
                 <span class="child-name">Tambah</span>
-            </div>
+            </a>
 
         </div>
 
