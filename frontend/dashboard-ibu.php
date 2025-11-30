@@ -16,18 +16,18 @@ $user_result = mysqli_query($koneksi, $user_query);
 $user = mysqli_fetch_assoc($user_result);
 
 // Ambil riwayat pemeriksaan terakhir
-$riwayat_query = "SELECT * FROM riwayat_pemeriksaan WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
+$riwayat_query = "SELECT * FROM riwayat_ibu WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
 $riwayat_result = mysqli_query($koneksi, $riwayat_query);
 $riwayat_terakhir = mysqli_fetch_assoc($riwayat_result);
 
 // Hitung total pemeriksaan
-$total_query = "SELECT COUNT(*) as total FROM riwayat_pemeriksaan WHERE id_user = $id_user";
+$total_query = "SELECT COUNT(*) as total FROM riwayat_ibu WHERE id_user = $id_user";
 $total_result = mysqli_query($koneksi, $total_query);
 $total_data = mysqli_fetch_assoc($total_result);
 $total_pemeriksaan = $total_data['total'];
 
 // Hitung usia kehamilan (dari riwayat terakhir)
-$usia_kehamilan = $riwayat_terakhir ? $riwayat_terakhir['usia_kehamilan'] . " Minggu" : "Belum Ada Data";
+$usia_kehamilan = $riwayat_terakhir ? $riwayat_terakhir['usia_hamil'] . " Minggu" : "Belum Ada Data";
 
 // Status kehamilan berdasarkan pemeriksaan terakhir
 $status_kehamilan = "Belum Ada Data";
@@ -35,7 +35,7 @@ if($riwayat_terakhir){
     $tekanan = explode('/', $riwayat_terakhir['tekanan_darah']);
     $sistol = (int)$tekanan[0];
     
-    if($sistol < 140 && $riwayat_terakhir['denyut_jantung'] >= 120 && $riwayat_terakhir['denyut_jantung'] <= 160){
+    if($sistol < 140 && $riwayat_terakhir['denyut'] >= 120 && $riwayat_terakhir['denyut'] <= 160){
         $status_kehamilan = "Baik";
     } else {
         $status_kehamilan = "Perlu Perhatian";

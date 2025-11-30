@@ -1,3 +1,21 @@
+<?php
+session_start();
+require "../backend/koneksi.php";
+
+// Cek apakah user sudah login
+if(!isset($_SESSION['id_user'])){
+    header("location: homepage.php");
+    exit;
+}
+
+$id_user = $_SESSION['id_user'];
+
+// Ambil data user
+$user_query = "SELECT * FROM user WHERE id_user = $id_user";
+$user_result = mysqli_query($koneksi, $user_query);
+$user = mysqli_fetch_assoc($user_result);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +46,8 @@
 
     <div class="right">
         <div class="profile">
-            <div class="name">sabrina alya</div>
-            <div class="email">contoh@gmail.com</div>
+            <div class="name"><?= $user['nama_user'] ?></div>
+            <div class="email"><?= $user['email'] ?></div>
         </div>
 
         <button class="logout-btn">

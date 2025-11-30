@@ -16,7 +16,7 @@ $user_result = mysqli_query($koneksi, $user_query);
 $user = mysqli_fetch_assoc($user_result);
 
 // Ambil semua riwayat pemeriksaan user
-$riwayat_query = "SELECT * FROM riwayat_pemeriksaan WHERE id_user = $id_user ORDER BY tanggal_periksa DESC";
+$riwayat_query = "SELECT * FROM riwayat_ibu WHERE id_user = $id_user ORDER BY tanggal_periksa DESC";
 $riwayat_result = mysqli_query($koneksi, $riwayat_query);
 ?>
 <!DOCTYPE html>
@@ -101,7 +101,7 @@ $riwayat_result = mysqli_query($koneksi, $riwayat_query);
 <br>
 
 <div class="container mt-4 mb-5">
-    <h3 class="mb-4">📋 Riwayat Pemeriksaan Kehamilan Anda</h3>
+    <h3 class="mb-4"> Riwayat Pemeriksaan Kehamilan Anda</h3>
     
     <?php if(mysqli_num_rows($riwayat_result) > 0): ?>
         <?php while($riwayat = mysqli_fetch_assoc($riwayat_result)): ?>
