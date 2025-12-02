@@ -16,8 +16,24 @@
 
 </head>
 <body>
-    
-    <div class="d-flex justify-content-center" style="padding: 40px;">
+    <!-- NavBar Start -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <img src="../img/logo.jpg" alt="ini logo" class="logo">
+            <div class="Judul">
+                <a href="homepage.php" class="simba">SIMBA</a>
+                <p>Sistem Informasi Ibu dan Anak</p>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="homepage.php">Home</a>
+            <a href="homepage.php #layanan">Layanan</a>
+        </div>
+    </nav>
+    <!-- NavBar End -->
+
+    <div class="d-flex justify-content-center" style="padding: 40px; margin-top: 70px">
         <div class="kotak" style="padding: 30px 45px 45px 45px;">
             <div style="text-align: center;">
                 <h2>Formulir Pendaftaran Akun</h2>
