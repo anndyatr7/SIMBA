@@ -1,6 +1,17 @@
+<?php 
+require "../backend/koneksi.php";
+
+// Ambil semua data anak dengan join ke tabel user untuk mendapatkan nama ibu
+$query = "SELECT da.*, u.nama_user AS nama_ibu 
+          FROM data_anak da 
+          JOIN user u ON da.id_user = u.id_user 
+          ORDER BY da.id_anak DESC";
+$result = mysqli_query($koneksi, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-<he>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -26,6 +37,7 @@
         }
     </style>
     <link rel="stylesheet" href="styling/buatindex.css?v<?php echo time();?>" >
+    <link rel="stylesheet" href="styling/buatadmin.css?v<?php echo time();?>">
 </head>
 <body>
     <!-- NavBar Start -->
@@ -39,7 +51,7 @@
         </div>
 
         <div class="nav-right">
-            <a href="../backend/logout.php">LogOut</a>
+            <a href="../backend/logout.php">Keluar</a>
         </div>
     </nav>
     <!-- NavBar End -->
@@ -58,9 +70,41 @@
                 </ul>
             </div>
 
-            <div class="card-body p-4">
-                <p class="card-text">looping data</p>
+            <?php 
+            if(mysqli_num_rows($result) > 0){
+                $no = 1;
+                echo "<pre>";
+                while($test = mysqli_fetch_assoc($result)) {
+                    print_r($test);
+                    break;
+                }
+                echo "</pre>";
+                exit();
+
+                while($row = mysqli_fetch_assoc($result)){
+                    // Hitung usia anak
+                    $tanggal_lahir = new DateTime($row['tanggal_lahir']);
+                    $sekarang = new DateTime();
+                    $usia = $sekarang->diff($tanggal_lahir);
+                    $usia_text = $usia->y > 0 ? $usia->y . " tahun " . $usia->m . " bulan" : $usia->m . " bulan";
+            ?>
+            <div class="loop-data">
+                <p class="card-text"><?= $no++; ?></p>
+                <p class="card-text"><?= $row['nama_anak'] ?></p>
+                <p class="card-text"><?= $usia_text ?> (<?= $row['gender'] ?>)</p>
+                <p class="card-text">Ibu: <?= $row['nama_ibu'] ?></p>
+                <a href="admin-riwayat-anak.php?id_anak=<?= $row['id_anak'] ?>">
+                    Lihat Riwayat
+                </a>
             </div>
+            <?php 
+                }
+            } else {
+            ?>
+            <div class="card-body p-4">
+                <p>Belum ada data anak terdaftar</p>
+            </div>
+            <?php } ?>
 
         </div>
     </div>

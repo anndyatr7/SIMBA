@@ -15,6 +15,10 @@ $user_query = "SELECT * FROM user WHERE id_user = $id_user";
 $user_result = mysqli_query($koneksi, $user_query);
 $user = mysqli_fetch_assoc($user_result);
 
+// Ambil data anak
+$anak_query = "SELECT * FROM data_anak WHERE id_user = $id_user";
+$anak_result = mysqli_query($koneksi, $anak_query);
+
 // Ambil riwayat pemeriksaan terakhir
 $riwayat_query = "SELECT * FROM riwayat_pemeriksaan WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
 $riwayat_result = mysqli_query($koneksi, $riwayat_query);
@@ -69,7 +73,7 @@ if($riwayat_terakhir){
             <div class="subtitle">Posyandu Sehat</div>
         </div>
 
-        <button class="switch-btn">
+        <button class="switch-btn" id="openSwitchAnak">
             Beralih ke Layanan Anak
         </button>
     </div>
@@ -220,47 +224,150 @@ if($riwayat_terakhir){
 </div>
 
 <!-- MODAL SWITCH LAYANAN ANAK -->
- <div id="modalAnak" class="modal-overlay">
+<div id="modalAnak" class="modal-overlay">
     <div class="modal-box">
-
-        <h4>Halo <?= $user['nama_user'] ?> !<br>Pilih Jagoan/Princess kamu~</h4>
+        <h4>Halo <?= $user['nama_user'] ?>!<br>Pilih Jagoan/Princess kamu~</h4>
 
         <div class="child-options">
-
-            <!-- Anak yg sudah terdaftar -->
-            <div class="child-card">
+            <?php 
+            if(mysqli_num_rows($anak_result) > 0){
+                while($anak = mysqli_fetch_assoc($anak_result)){
+                    // Hitung usia anak
+                    $tanggal_lahir = new DateTime($anak['tanggal_lahir']);
+                    $sekarang = new DateTime();
+                    $usia = $sekarang->diff($tanggal_lahir);
+                    $usia_text = $usia->y > 0 ? $usia->y . " tahun" : $usia->m . " bulan";
+            ?>
+            <!-- Anak yang sudah terdaftar -->
+            <a href="dashboard-anak.php?id_anak=<?= $anak['id_anak'] ?>" class="child-card" style="text-decoration: none; color: inherit;">
                 <div class="icon-box">
-                    <i class="fa-regular fa-face-smile"></i>
+                    <i class="<?= $anak['jenis_kelamin'] == 'Laki-laki' ? 'fa-solid fa-mars' : 'fa-solid fa-venus' ?>"></i>
                 </div>
-                <span class="child-name">Coming Soon</span>
-            </div>
+                <span class="child-name"><?= $anak['nama_anak'] ?></span>
+                <small style="font-size: 12px; color: #666;"><?= $usia_text ?></small>
+            </a>
+            <?php 
+                }
+            }
+            ?>
 
             <!-- Tombol tambah anak -->
-            <div class="child-card">
+            <div class="child-card" id="openTambahAnak" style="cursor: pointer;">
                 <div class="icon-box">
                     <i class="fa-solid fa-plus"></i>
                 </div>
-                <span class="child-name">Tambah</span>
+                <span class="child-name">Tambah Anak</span>
             </div>
-
         </div>
-
     </div>
 </div>
 
+<!-- MODAL TAMBAH ANAK -->
+<div id="modalTambahAnak" class="modal-overlay">
+    <div class="modal-box" style="max-width: 600px;">
+        <h4>Tambah Data Anak</h4>
+        
+        <form action="../backend/tambah-anak.php" method="POST">
+            <div class="row g-3 mt-2">
+                <div class="col-12">
+                    <label>Nama Anak</label>
+                    <input type="text" class="form-control" name="nama_anak" required>
+                </div>
+                
+                <div class="col-6">
+                    <label>Tanggal Lahir</label>
+                    <input type="date" class="form-control" name="tanggal_lahir" required>
+                </div>
+                
+                <div class="col-6">
+                    <label>Jenis Kelamin</label>
+                    <select class="form-control" name="jenis_kelamin" required>
+                        <option value="">Pilih</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                
+                <div class="col-4">
+                    <label>Golongan Darah</label>
+                    <select class="form-control" name="golongan_darah">
+                        <option value="">Pilih</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O">O</option>
+                    </select>
+                </div>
+                
+                <div class="col-4">
+                    <label>Berat Lahir (kg)</label>
+                    <input type="number" step="0.01" class="form-control" name="berat_lahir" placeholder="3.2">
+                </div>
+                
+                <div class="col-4">
+                    <label>Tinggi Lahir (cm)</label>
+                    <input type="number" step="0.01" class="form-control" name="tinggi_lahir" placeholder="50">
+                </div>
+                
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" name="tambah_anak" class="btn btn-primary w-50">Simpan</button>
+                    <button type="button" class="btn btn-secondary w-50" onclick="closeTambahAnak()">Batal</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+.modal-box .form-control {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.modal-box label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+</style>
+
 <script>
     const modalAnak = document.getElementById("modalAnak");
-    const openSwitch = document.querySelector(".switch-btn");
+    const modalTambahAnak = document.getElementById("modalTambahAnak");
+    const openSwitch = document.getElementById("openSwitchAnak");
+    const openTambah = document.getElementById("openTambahAnak");
 
+    // Buka modal pilih anak
     openSwitch.addEventListener("click", () => {
         modalAnak.style.display = "flex";
     });
 
+    // Tutup modal pilih anak
     modalAnak.addEventListener("click", (e) => {
         if(e.target === modalAnak){
             modalAnak.style.display = "none";
         }
     });
+
+    // Buka modal tambah anak
+    openTambah.addEventListener("click", () => {
+        modalAnak.style.display = "none";
+        modalTambahAnak.style.display = "flex";
+    });
+
+    // Tutup modal tambah anak
+    modalTambahAnak.addEventListener("click", (e) => {
+        if(e.target === modalTambahAnak){
+            modalTambahAnak.style.display = "none";
+        }
+    });
+
+    function closeTambahAnak() {
+        modalTambahAnak.style.display = "none";
+    }
 </script>
 
 </body>

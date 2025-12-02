@@ -2,31 +2,25 @@
 require "koneksi.php";
 session_start();
 
-// ========================================
-// LOGIN USER
-// ========================================
-if(isset($_POST['login'])){
-    $nik = mysqli_real_escape_string($koneksi, $_POST['nik']);
-    $password = mysqli_real_escape_string($koneksi, $_POST['password']);
+$sql = "SELECT * FROM user WHERE nik='$nik' AND password='$password'";
+$result = mysqli_query($koneksi, $sql);
 
-    // PERBAIKAN: Nama tabel dari 'users' menjadi 'user'
-    // PERBAIKAN: Variabel dari '$pass' menjadi '$password'
-    $sql = "SELECT * FROM user WHERE nik='$nik' AND password='$password'";
-    $result = mysqli_query($koneksi, $sql);
+if (mysqli_num_rows($result) > 0){
+    $data = mysqli_fetch_assoc($result);
+    $_SESSION['nik'] = $data['nik'];
+    $_SESSION['id_user'] = $data['id_user'];
 
-    if (mysqli_num_rows($result) > 0){
-        $data = mysqli_fetch_assoc($result);
-        $_SESSION['nik'] = $data['nik'];
-        $_SESSION['id_user'] = $data['id_user'];
+    // CEK APAKAH USER INI ADA DI TABEL data_anak
+    $id = $data['id_user'];
+    $cek_anak = mysqli_query($koneksi, "SELECT * FROM data_anak WHERE id_user='$id'");
 
-        // PERBAIKAN: Path file
-        header('location:../frontend/dashboard-ibu.php');
+    if(mysqli_num_rows($cek_anak) > 0){
+        // Kalau ada → berarti user ini masuk sebagai IBU ANAK
+        header("Location: ../frontend/dashboard-anak.php");
         exit;
     } else {
-        echo "<script>
-                alert('NIK atau Password salah!');
-                window.location.href = '../frontend/homepage.php';
-              </script>";
+        // Kalau tidak ada → user ini adalah IBU (orang dewasa)
+        header("Location: ../frontend/dashboard-ibu.php");
         exit;
     }
 }

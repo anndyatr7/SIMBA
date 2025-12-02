@@ -147,7 +147,7 @@
                 <input type="text" placeholder="Masukkan NIK" name="nik">
                 <label >Password</label>
                 <input type="password" placeholder="Masukkan Password" name="password">
-                <button class="login-submit" name="login">Login</button>
+                <button class="login-submit" name="loginanak">Login</button>
 
                 <p class="register">Belum Punya akun? <a href="registrasi.php">Registrasi di sini</a></p>
             </div>
