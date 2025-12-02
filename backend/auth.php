@@ -2,9 +2,7 @@
 require "koneksi.php";
 session_start();
 
-// ========================================
 // LOGIN USER
-// ========================================
 if(isset($_POST['login'])){
     $nik = mysqli_real_escape_string($koneksi, $_POST['nik']);
     $password = mysqli_real_escape_string($koneksi, $_POST['password']);
@@ -31,9 +29,7 @@ if(isset($_POST['login'])){
     }
 }
  
-// ========================================
 // REGISTER USER
-// ========================================
 if(isset($_POST['regis'])){
     // PERBAIKAN: Sesuaikan dengan name di form registrasi.php
     $nama = mysqli_real_escape_string($koneksi, $_POST["nama"]);
@@ -88,9 +84,7 @@ if(isset($_POST['regis'])){
     $check->close();
 }
 
-// ========================================
 // LOGIN ADMIN
-// ========================================
 if(isset($_POST['loginAdmin'])){
     $nip = mysqli_real_escape_string($koneksi, $_POST['NIP']);
     $passwordAdmin = mysqli_real_escape_string($koneksi, $_POST['passwordAdmin']);
