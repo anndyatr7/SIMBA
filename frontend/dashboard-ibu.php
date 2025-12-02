@@ -36,7 +36,7 @@ $usia_kehamilan = $riwayat_terakhir ? $riwayat_terakhir['usia_hamil'] . " Minggu
 // Status kehamilan berdasarkan pemeriksaan terakhir
 $status_kehamilan = "Belum Ada Data";
 if($riwayat_terakhir){
-    $tekanan = explode('/', $riwayat_terakhir['tekanan_darah']);
+    $tekanan = explode('/', $riwayat_terakhir['tensi']);
     $sistol = (int)$tekanan[0];
     
     if($sistol < 140 && $riwayat_terakhir['denyut'] >= 120 && $riwayat_terakhir['denyut'] <= 160){
@@ -130,7 +130,7 @@ if($riwayat_terakhir){
             <div class="ann-content">
                 <h5>Pemeriksaan Rutin</h5>
                 <p><?= date('d F Y', strtotime($riwayat_terakhir['tanggal_periksa'])) ?></p>
-                <span class="ann-date">Usia Kehamilan: <?= $riwayat_terakhir['usia_kehamilan'] ?> minggu</span>
+                <span class="ann-date">Usia Kehamilan: <?= $riwayat_terakhir['usia_hamil'] ?> minggu</span>
             </div>
 
             <span class="ann-badge"><?= date('d M', strtotime($riwayat_terakhir['tanggal_periksa'])) ?></span>
@@ -143,7 +143,7 @@ if($riwayat_terakhir){
 
             <div class="ann-content">
                 <h5>Catatan Dokter</h5>
-                <p><?= $riwayat_terakhir['catatan_dokter'] ?></p>
+                <p><?= $riwayat_terakhir['pesan'] ?></p>
             </div>
         </div>
         <?php else: ?>

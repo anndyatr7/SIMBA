@@ -116,7 +116,7 @@ $riwayat_result = mysqli_query($koneksi, $riwayat_query);
                         <i class="fa-regular fa-calendar text-primary"></i> 
                         <?= date('d F Y', strtotime($riwayat['tanggal_periksa'])) ?>
                     </h5>
-                    <span class="badge bg-info">Minggu ke-<?= $riwayat['usia_kehamilan'] ?></span>
+                    <span class="badge bg-info">Minggu ke-<?= $riwayat['usia_hamil'] ?></span>
                 </div>
                 
                 <div class="row">
@@ -125,27 +125,27 @@ $riwayat_result = mysqli_query($koneksi, $riwayat_query);
                         
                         <div class="detail-row">
                             <span><i class="fa-solid fa-ruler-vertical text-success"></i> Tinggi Badan</span>
-                            <strong><?= $riwayat['tinggi_badan'] ?> cm</strong>
+                            <strong><?= $riwayat['tiba'] ?> cm</strong>
                         </div>
                         
                         <div class="detail-row">
                             <span><i class="fa-solid fa-weight-scale text-warning"></i> Berat Badan</span>
-                            <strong><?= $riwayat['berat_badan'] ?> kg</strong>
+                            <strong><?= $riwayat['beba'] ?> kg</strong>
                         </div>
                         
                         <div class="detail-row">
                             <span><i class="fa-solid fa-heart-pulse text-danger"></i> Tekanan Darah</span>
-                            <strong><?= $riwayat['tekanan_darah'] ?> mmHg</strong>
+                            <strong><?= $riwayat['tensi'] ?> mmHg</strong>
                         </div>
                         
                         <div class="detail-row">
                             <span><i class="fa-solid fa-arrows-up-down text-primary"></i> Tinggi Fundus</span>
-                            <strong><?= $riwayat['tinggi_fundus'] ?> cm</strong>
+                            <strong><?= $riwayat['tfu'] ?> cm</strong>
                         </div>
                         
                         <div class="detail-row">
                             <span><i class="fa-solid fa-heartbeat text-danger"></i> Denyut Jantung Bayi</span>
-                            <strong><?= $riwayat['denyut_jantung'] ?> bpm</strong>
+                            <strong><?= $riwayat['denyut'] ?> bpm</strong>
                         </div>
                     </div>
                     
@@ -154,12 +154,12 @@ $riwayat_result = mysqli_query($koneksi, $riwayat_query);
                         
                         <div class="mb-3">
                             <small class="text-muted">Aktivitas Bayi:</small><br>
-                            <span class="badge bg-success"><?= $riwayat['aktivitas_bayi'] ?></span>
+                            <span class="badge bg-success"><?= $riwayat['aktivitas'] ?></span>
                         </div>
                         
                         <div class="mb-3">
                             <small class="text-muted">Tablet TTD:</small><br>
-                            <?php if($riwayat['tablet_ttd'] == 'Ya'): ?>
+                            <?php if($riwayat['ttd'] == 'Ya'): ?>
                                 <span class="badge bg-success">✓ Diberikan</span>
                             <?php else: ?>
                                 <span class="badge bg-secondary">Tidak Diberikan</span>
@@ -173,7 +173,7 @@ $riwayat_result = mysqli_query($koneksi, $riwayat_query);
                         
                         <div class="alert alert-light mb-0">
                             <small class="text-muted"><i class="fa-solid fa-user-doctor"></i> Catatan Dokter:</small><br>
-                            <p class="mb-0"><?= $riwayat['catatan_dokter'] ?></p>
+                            <p class="mb-0"><?= $riwayat['pesan'] ?></p>
                         </div>
                     </div>
                 </div>
