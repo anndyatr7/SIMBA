@@ -20,7 +20,7 @@ if(!$data_ibu){
     exit;
 }
 
-$query_riwayat = "SELECT * FROM riwayat_ibu WHERE id_user='$id_ibu' ORDER BY tanggal_periksa DESC";
+$query_riwayat = "SELECT * FROM riwayat_pemeriksaan WHERE id_user='$id_ibu' ORDER BY tanggal_periksa DESC";
 $riwayat = mysqli_query($koneksi, $query_riwayat);
 ?>
 
@@ -123,16 +123,16 @@ $riwayat = mysqli_query($koneksi, $query_riwayat);
                             </div>
                             <div class="datanya">
                                 <p><?= date('d F Y', strtotime($row['tanggal_periksa'])); ?></p>
-                                <p><?= $row['tiba']; ?> cm</p>
-                                <p><?= $row['beba']; ?> kg</p>
-                                <p><?= $row['tensi']; ?> mmHg</p>
-                                <p><?= $row['usia_hamil']; ?> minggu</p>
-                                <p><?= $row['tfu']; ?> cm</p>
-                                <p><?= $row['denyut']; ?> bpm</p>
+                                <p><?= $row['tinggi_badan']; ?> cm</p>
+                                <p><?= $row['berat_badan']; ?> kg</p>
+                                <p><?= $row['tekanan_darah']; ?> mmHg</p>
+                                <p><?= $row['usia_kehamilan']; ?> minggu</p>
+                                <p><?= $row['tinggi_fundus']; ?> cm</p>
+                                <p><?= $row['denyut_jantung']; ?> bpm</p>
                                 <p><?= $row['keluhan']; ?></p>
-                                <p><?= $row['aktivitas']; ?></p>
-                                <p><?= $row['ttd']; ?></p>
-                                <p><?= $row['pesan']; ?></p>
+                                <p><?= $row['aktivitas_bayi']; ?></p>
+                                <p><?= $row['tablet_ttd']; ?></p>
+                                <p><?= $row['catatan_dokter']; ?></p>
                             </div>
                         </div>
                     </div>

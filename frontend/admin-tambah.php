@@ -106,32 +106,32 @@ if(!$data_ibu){
                     <!-- ROW 1 -->
                     <div class="row g-4">
                         <div class="col-4">
-                            <label for="tb">Tinggi Badan</label>
-                            <input type="text" class="form-control" placeholder="...cm" name="tb" required>
+                            <label for="tinggi_badan">Tinggi Badan</label>
+                            <input type="text" class="form-control" placeholder="...cm" name="tinggi_badan" required>
                         </div>
                         <div class="col-4">
-                            <label for="bb">Berat Badan</label>
-                            <input type="text" class="form-control" placeholder="...kg" name="bb" required>
+                            <label for="berat_badan">Berat Badan</label>
+                            <input type="text" class="form-control" placeholder="...kg" name="berat_badan" required>
                         </div>
                         <div class="col-4">
-                            <label for="tenxi">Tekanan Darah</label>
-                            <input type="text" class="form-control" placeholder="120/80" name="tenxi" required>
+                            <label for="tekanan_darah">Tekanan Darah</label>
+                            <input type="text" class="form-control" placeholder="120/80" name="tekenan_darah" required>
                         </div>
                     </div>
 
                     <!-- ROW 2 -->
                     <div class="row g-4 mt-1">
                         <div class="col-4">
-                            <label for="usiahamil">Usia Kehamilan (minggu)</label>
-                            <input type="number" class="form-control" placeholder="contoh: 12" name="usiahamil" required>
+                            <label for="usia_kehamilan">Usia Kehamilan (minggu)</label>
+                            <input type="number" class="form-control" placeholder="contoh: 12" name="usia_kehamilan" required>
                         </div>
                         <div class="col-4">
-                            <label for="fundus">Tinggi Fundus Uterus</label>
-                            <input type="text" class="form-control" placeholder="...cm" name="fundus" required>
+                            <label for="tinggi_fundus">Tinggi Fundus Uterus</label>
+                            <input type="text" class="form-control" placeholder="...cm" name="tinggi_fundus" required>
                         </div>
                         <div class="col-4">
-                            <label for="denyut">Denyut Jantung Bayi</label>
-                            <input type="text" class="form-control" placeholder="...kali/menit" name="denyut" required>
+                            <label for="denyut_jantung">Denyut Jantung Bayi</label>
+                            <input type="text" class="form-control" placeholder="...kali/menit" name="denyut_jantung" required>
                         </div>
                     </div>
 
@@ -156,22 +156,22 @@ if(!$data_ibu){
                         <div class="col-3 text-start">
                            <label>Aktivitas Bayi</label>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="aktif" value="Aktif" required>
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktivitas_bayi" id="aktif" value="Aktif" required>
                                 <label class="form-check-label" for="aktif">Aktif</label>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktifitas" id="tenang" value="Tenang">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="aktivitas_bayi" id="tenang" value="Tenang">
                                 <label class="form-check-label" for="tenang">Tenang</label>
                             </div>
                         </div>
                         <div class="col-3 text-start">
                             <label>Tablet TTD Diberikan</label>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="ya" value="Ya" required>
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="tablet_ttd" id="ya" value="Ya" required>
                                 <label class="form-check-label" for="ya">Ya</label>
                             </div>
                             <div class="d-flex align-items-center mb-2">
-                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="ttd" id="tidak" value="Tidak">
+                                <input class="form-check-input" style="margin-right: 10px;" type="radio" name="tablet_ttd" id="tidak" value="Tidak">
                                 <label class="form-check-label" for="tidak">Tidak</label>
                             </div>
                         </div>
@@ -180,7 +180,7 @@ if(!$data_ibu){
                     <!-- ROW 4 - Catatan Dokter -->
                     <div class="mt-4">
                         <label>Catatan Dokter</label>
-                        <textarea class="form-control" name="alasan" rows="3" required></textarea>
+                        <textarea class="form-control" name="catatan_dokter rows="3" required></textarea>
                     </div>
 
                     <!-- PERBAIKAN: Ganti <a> dengan <button type="submit"> -->

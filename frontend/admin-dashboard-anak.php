@@ -73,14 +73,6 @@ $result = mysqli_query($koneksi, $query);
             <?php 
             if(mysqli_num_rows($result) > 0){
                 $no = 1;
-                echo "<pre>";
-                while($test = mysqli_fetch_assoc($result)) {
-                    print_r($test);
-                    break;
-                }
-                echo "</pre>";
-                exit();
-
                 while($row = mysqli_fetch_assoc($result)){
                     // Hitung usia anak
                     $tanggal_lahir = new DateTime($row['tanggal_lahir']);

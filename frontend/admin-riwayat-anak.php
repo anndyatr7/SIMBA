@@ -80,6 +80,7 @@ $riwayat = mysqli_query($koneksi, $query_riwayat);
 
         <div class="nav-right">
             <a href="admin-dashboard-anak.php">Kembali</a>
+            <a href="../backend/delete-anak.php?id_anak=<?= $id_anak ?>">Hapus User</a>
         </div>
     </nav>
     <!-- NavBar End -->

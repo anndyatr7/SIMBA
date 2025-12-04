@@ -1,20 +1,17 @@
-<?php
-session_start();
+<?php 
 require "koneksi.php";
+$id_anak = $_GET['id_anak'];
 
-if(isset($_GET['id_anak'])){
-    $id_user = $_SESSION['id_user'];
-    $id_anak = $_GET['id_anak'];
-    
-    // Hapus hanya jika id_user nya sama (otoritas akun)
-    $sql = "DELETE FROM data_anak WHERE id_anak=$id_anak AND id_user=$id_user";
-    $result = mysqli_query($koneksi, $sql);
-    
-    if($result){
-        header("location:../frontend/dashboard-ibu.php");
-    } else {
-        echo "Error: " . mysqli_error($koneksi);
-    }
-    exit;
+$query = "DELETE FROM data_anak WHERE id_anak='$id_anak'";
+$result = mysqli_query($koneksi, $query);
+
+if($result){
+    echo "<script>
+    alert('User berhasil dihapus');
+    window.location.href = '../frontend/admin-dashboard-anak.php';
+        </script>";
+} else{
+    echo "Error: " . $query . "<br>" . mysqli_error($koneksi);
 }
+
 ?>
