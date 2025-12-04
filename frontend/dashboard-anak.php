@@ -2,7 +2,6 @@
 session_start();
 require "../backend/koneksi.php";
 
-<<<<<<< HEAD
 // Cek apakah user sudah login dan ada id_anak
 if(!isset($_SESSION['id_user']) || !isset($_GET['id_anak'])){
     header("location: homepage.php");
@@ -25,26 +24,11 @@ $anak = mysqli_fetch_assoc($anak_result);
 if(!$anak){
     echo "<script>
             alert('Data anak tidak ditemukan!');
-=======
-// Cek apakah user sudah login
-if(!isset($_SESSION['id_user'])){
-    header("location: login.php");
-    exit;
-}
-
-$id_user = $_SESSION['id_user']; // ID ibu yang login
-
-// Ambil ID anak dari URL
-if(!isset($_GET['id'])){
-    echo "<script>
-            alert('ID anak tidak ditemukan!');
->>>>>>> a44af0724ccf3e604ab5b12e73f7d5d6d264b81d
             window.location.href = 'dashboard-ibu.php';
           </script>";
     exit;
 }
 
-<<<<<<< HEAD
 // Hitung usia anak
 $tanggal_lahir = new DateTime($anak['tanggal_lahir']);
 $sekarang = new DateTime();
@@ -67,38 +51,6 @@ while($row = mysqli_fetch_assoc($grafik_result)){
 }
 $data_grafik = array_reverse($data_grafik); // Reverse agar urutan kronologis
 ?>
-=======
-$id_anak = (int)$_GET['id'];
-
-// Ambil data anak DAN pastikan anak ini milik ibu yang login (PENTING untuk keamanan!)
-$anak_query = "SELECT * FROM data_anak WHERE id_anak = ? AND id_user = ?";
-$anak_stmt = mysqli_prepare($koneksi, $anak_query);
-mysqli_stmt_bind_param($anak_stmt, "ii", $id_anak, $id_user);
-mysqli_stmt_execute($anak_stmt);
-$anak_result = mysqli_stmt_get_result($anak_stmt);
-
-// Cek apakah data anak ditemukan
-if(mysqli_num_rows($anak_result) == 0){
-    echo "<script>
-            alert('Data anak tidak ditemukan atau bukan milik Anda!');
-            window.location.href = 'dashboard-ibu.php';
-          </script>";
-    exit;
-}
-
-$anak = mysqli_fetch_assoc($anak_result);
-
-// Ambil data ibu
-$user_query = "SELECT * FROM user WHERE id_user = ?";
-$user_stmt = mysqli_prepare($koneksi, $user_query);
-mysqli_stmt_bind_param($user_stmt, "i", $id_user);
-mysqli_stmt_execute($user_stmt);
-$user_result = mysqli_stmt_get_result($user_stmt);
-$user = mysqli_fetch_assoc($user_result);
-
-?>
-
->>>>>>> a44af0724ccf3e604ab5b12e73f7d5d6d264b81d
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -151,13 +103,8 @@ $user = mysqli_fetch_assoc($user_result);
 
 <!-- WELCOME -->
 <div class="welcome-banner">
-<<<<<<< HEAD
-    <h4>Selamat Datang, <?= $user['nama_user'] ?>! 👋</h4>
-    <p>Pantau tumbuh kembang <strong><?= $anak['nama_anak'] ?></strong> dan kelola imunisasi dengan mudah</p>
-=======
     <h4>Haloo, <?= $anak['nama_anak'] ?>!</h4>
     <p>Pantau tumbuh kembang anak Anda dan kelola imunisasi dengan mudah</p>
->>>>>>> a44af0724ccf3e604ab5b12e73f7d5d6d264b81d
 </div>
 
 <!-- GRID LAYOUT -->

@@ -15,35 +15,31 @@ $user_query = "SELECT * FROM user WHERE id_user = $id_user";
 $user_result = mysqli_query($koneksi, $user_query);
 $user = mysqli_fetch_assoc($user_result);
 
-<<<<<<< HEAD
-// Ambil data anak
-=======
 // data bayi
->>>>>>> a44af0724ccf3e604ab5b12e73f7d5d6d264b81d
 $anak_query = "SELECT * FROM data_anak WHERE id_user = $id_user";
 $anak_result = mysqli_query($koneksi, $anak_query);
 
 // Ambil riwayat pemeriksaan terakhir
-$riwayat_query = "SELECT * FROM riwayat_ibu WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
+$riwayat_query = "SELECT * FROM riwayat_pemeriksaan WHERE id_user = $id_user ORDER BY tanggal_periksa DESC LIMIT 1";
 $riwayat_result = mysqli_query($koneksi, $riwayat_query);
 $riwayat_terakhir = mysqli_fetch_assoc($riwayat_result);
 
 // Hitung total pemeriksaan
-$total_query = "SELECT COUNT(*) as total FROM riwayat_ibu WHERE id_user = $id_user";
+$total_query = "SELECT COUNT(*) as total FROM riwayat_pemeriksaan WHERE id_user = $id_user";
 $total_result = mysqli_query($koneksi, $total_query);
 $total_data = mysqli_fetch_assoc($total_result);
 $total_pemeriksaan = $total_data['total'];
 
 // Hitung usia kehamilan (dari riwayat terakhir)
-$usia_kehamilan = $riwayat_terakhir ? $riwayat_terakhir['usia_hamil'] . " Minggu" : "Belum Ada Data";
+$usia_kehamilan = $riwayat_terakhir ? $riwayat_terakhir['usia_kehamilan'] . " Minggu" : "Belum Ada Data";
 
 // Status kehamilan berdasarkan pemeriksaan terakhir
 $status_kehamilan = "Belum Ada Data";
 if($riwayat_terakhir){
-    $tekanan = explode('/', $riwayat_terakhir['tensi']);
+    $tekanan = explode('/', $riwayat_terakhir['tekanan_darah']);
     $sistol = (int)$tekanan[0];
     
-    if($sistol < 140 && $riwayat_terakhir['denyut'] >= 120 && $riwayat_terakhir['denyut'] <= 160){
+    if($sistol < 140 && $riwayat_terakhir['denyut_jantung'] >= 120 && $riwayat_terakhir['denyut_jantung'] <= 160){
         $status_kehamilan = "Baik";
     } else {
         $status_kehamilan = "Perlu Perhatian";
@@ -134,7 +130,7 @@ if($riwayat_terakhir){
             <div class="ann-content">
                 <h5>Pemeriksaan Rutin</h5>
                 <p><?= date('d F Y', strtotime($riwayat_terakhir['tanggal_periksa'])) ?></p>
-                <span class="ann-date">Usia Kehamilan: <?= $riwayat_terakhir['usia_hamil'] ?> minggu</span>
+                <span class="ann-date">Usia Kehamilan: <?= $riwayat_terakhir['usia_kehamilan'] ?> minggu</span>
             </div>
 
             <span class="ann-badge"><?= date('d M', strtotime($riwayat_terakhir['tanggal_periksa'])) ?></span>
@@ -147,7 +143,7 @@ if($riwayat_terakhir){
 
             <div class="ann-content">
                 <h5>Catatan Dokter</h5>
-                <p><?= $riwayat_terakhir['pesan'] ?></p>
+                <p><?= $riwayat_terakhir['catatan_dokter'] ?></p>
             </div>
         </div>
         <?php else: ?>
@@ -236,7 +232,6 @@ if($riwayat_terakhir){
         <h4>Halo <?= $user['nama_user'] ?>!<br>Pilih Jagoan/Princess kamu~</h4>
 
         <div class="child-options">
-<<<<<<< HEAD
             <?php 
             if(mysqli_num_rows($anak_result) > 0){
                 while($anak = mysqli_fetch_assoc($anak_result)){
@@ -266,29 +261,6 @@ if($riwayat_terakhir){
                 </div>
                 <span class="child-name">Tambah Anak</span>
             </div>
-=======
-
-            <?php
-              if(mysqli_num_rows($anak_result) > 0)
-                mysqli_data_seek($anak_result, 0);
-                while($anak = mysqli_fetch_assoc($anak_result)): ?>
-                <a href="dashboard-anak.php?id=<?= $anak['id_anak'] ?>" class="child-card" style="text-decoration: none; color: inherit;">
-                    <div class="icon-box">
-                        <i class="fa-solid fa-baby"></i>
-                    </div>
-                    <span class="child-name"><?= $anak['nama_anak'] ?></span>
-                </a>
-            <?php endwhile; ?>
-
-            <!-- Tombol tambah anak -->
-            <a href="form-anak.php" class="child-card" style="text-decoration: none; color: inherit;">
-                <div class="icon-box">
-                    <i class="fa-solid fa-plus"></i>
-                </div>
-                <span class="child-name">Tambah</span>
-            </a>
-
->>>>>>> a44af0724ccf3e604ab5b12e73f7d5d6d264b81d
         </div>
     </div>
 </div>

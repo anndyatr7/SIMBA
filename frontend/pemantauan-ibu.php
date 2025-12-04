@@ -17,8 +17,8 @@ $user = mysqli_fetch_assoc($user_result);
 
 // Ambil riwayat ibu terbaru
 $q = mysqli_query($koneksi, "
-    SELECT usia_hamil 
-    FROM riwayat_ibu 
+    SELECT usia_kehamilan 
+    FROM riwayat_pemeriksaan 
     WHERE id_user = '$id_user'
     ORDER BY tanggal_periksa DESC 
     LIMIT 1
@@ -99,7 +99,7 @@ $riwayat = mysqli_fetch_assoc($q);
         exit;
     }
     
-    $minggu = $riwayat['usia_hamil'];
+    $minggu = $riwayat['usia_kehamilan'];
     ?>
 
     <h3>Pemantauan Minggu Kehamilan: <?= $minggu ?></h3>
