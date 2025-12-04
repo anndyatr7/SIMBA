@@ -42,14 +42,7 @@ $riwayat_query = "SELECT * FROM riwayat_pemeriksaan_anak WHERE id_anak = $id_ana
 $riwayat_result = mysqli_query($koneksi, $riwayat_query);
 $riwayat_terakhir = mysqli_fetch_assoc($riwayat_result);
 
-// Data untuk grafik (ambil 5 data terakhir)
-$grafik_query = "SELECT tinggi_badan, berat_badan FROM riwayat_pemeriksaan_anak WHERE id_anak = $id_anak ORDER BY tanggal_periksa DESC LIMIT 5";
-$grafik_result = mysqli_query($koneksi, $grafik_query);
-$data_grafik = [];
-while($row = mysqli_fetch_assoc($grafik_result)){
-    $data_grafik[] = $row;
-}
-$data_grafik = array_reverse($data_grafik); // Reverse agar urutan kronologis
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -167,62 +160,37 @@ $data_grafik = array_reverse($data_grafik); // Reverse agar urutan kronologis
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // Data dari PHP
-const dataGrafik = <?= json_encode($data_grafik) ?>;
+// DATA DUMMY — tidak akan ambil dari database
+const dataGrafik = [
+    { usia: 1, tinggi_badan: 50 },
+    { usia: 2, tinggi_badan: 55 },
+    { usia: 3, tinggi_badan: 60 },
+    { usia: 4, tinggi_badan: 65 },
+    { usia: 5, tinggi_badan: 70 }
+];
 
-// Siapkan data untuk Chart.js
-const tinggiData = dataGrafik.map(d => parseFloat(d.tinggi_badan));
-const beratData = dataGrafik.map(d => parseFloat(d.berat_badan));
-const labels = dataGrafik.map((d, i) => 'Periksa ' + (i + 1));
-
-// DATA WHO — contoh dataset (sesuaikan dengan standar WHO)
-const length = [45, 50, 55, 60, 65, 70, 75, 80, 85, 90];
-const z3  = [4.2, 6.5, 8.4, 10.2, 12.3, 14.2, 16.4, 18.8, 21.5, 24.2];
-const z2  = [3.9, 5.9, 7.6, 9.3, 11.1, 12.9, 15.0, 17.3, 19.9, 22.5];
-const z1  = [3.5, 5.3, 6.8, 8.3, 9.9, 11.5, 13.4, 15.5, 17.8, 20.0];
-const z0  = [3.2, 4.8, 6.2, 7.6, 9.0, 10.4, 12.1, 14.0, 16.0, 18.1];
-const z_1 = [2.9, 4.4, 5.6, 6.9, 8.1, 9.4, 11.0, 12.7, 14.5, 16.3];
-const z_2 = [2.7, 4.1, 5.2, 6.3, 7.4, 8.6, 10.1, 11.6, 13.3, 15.0];
-const z_3 = [2.5, 3.8, 4.8, 5.8, 6.8, 7.9, 9.3, 10.8, 12.3, 13.8];
-
-// Buat dataset untuk titik anak
 const anakDataPoints = dataGrafik.map(d => ({
-    x: parseFloat(d.tinggi_badan),
-    y: parseFloat(d.berat_badan)
+    x: d.usia,
+    y: d.tinggi_badan
 }));
 
 new Chart(document.getElementById("whoChart"), {
     type: "line",
     data: {
-        labels: length,
         datasets: [
-            { label: "+3 SD", data: z3, borderColor: "#000", tension: 0.4, pointRadius: 0 },
-            { label: "+2 SD", data: z2, borderColor: "#ff3b3b", tension: 0.4, pointRadius: 0 },
-            { label: "+1 SD", data: z1, borderColor: "#ff8a00", tension: 0.4, pointRadius: 0 },
-            { label: "Median", data: z0, borderColor: "#00b050", tension: 0.4, pointRadius: 0 },
-            { label: "-1 SD", data: z_1, borderColor: "#ff8a00", tension: 0.4, pointRadius: 0 },
-            { label: "-2 SD", data: z_2, borderColor: "#ff3b3b", tension: 0.4, pointRadius: 0 },
-            { label: "-3 SD", data: z_3, borderColor: "#000", tension: 0.4, pointRadius: 0 },
             {
-                label: "<?= $anak['nama_anak'] ?>",
+                label: "Tinggi Badan Anak",
                 data: anakDataPoints,
-                pointRadius: 6,
-                pointBackgroundColor: "#0066ff",
-                showLine: true,
                 borderColor: "#0066ff",
-                borderWidth: 2,
+                pointRadius: 6,
                 tension: 0.3
             }
         ]
     },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: true, position: 'bottom' }
-        },
         scales: {
-            x: { title: { display: true, text: "Tinggi (cm)" } },
-            y: { title: { display: true, text: "Berat (kg)" } }
+            x: { title: { display: true, text: "Usia (bulan)" } },
+            y: { title: { display: true, text: "Tinggi Badan (cm)" } }
         }
     }
 });
