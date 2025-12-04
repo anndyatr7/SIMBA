@@ -61,7 +61,6 @@
     <!-- Layanan Section -->
      <section class="layanan" id="layanan">
         <h2>Pilih Layanan</h2>
-        <p class="keterangan-layanan">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum quaerat repellat totam. Laborum, voluptate accusantium.</p>
         <div class="pilih-layanan">
             <div class="ibu" id="openModalIbu">
                 <div class="logo-ibu">
