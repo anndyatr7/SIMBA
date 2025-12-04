@@ -12,13 +12,13 @@ if(isset($_POST['tambah_anak'])){
     $id_user = $_SESSION['id_user'];
     $nama_anak = mysqli_real_escape_string($koneksi, $_POST['nama_anak']);
     $tanggal_lahir = mysqli_real_escape_string($koneksi, $_POST['tanggal_lahir']);
-    $jenis_kelamin = mysqli_real_escape_string($koneksi, $_POST['jenis_kelamin']);
+    $gender = mysqli_real_escape_string($koneksi, $_POST['gender']);
     $golongan_darah = mysqli_real_escape_string($koneksi, $_POST['golongan_darah']);
     $berat_lahir = mysqli_real_escape_string($koneksi, $_POST['berat_lahir']);
     $tinggi_lahir = mysqli_real_escape_string($koneksi, $_POST['tinggi_lahir']);
     
-    $query = "INSERT INTO data_anak (id_user, nama_anak, tanggal_lahir, jenis_kelamin, golongan_darah, berat_lahir, tinggi_lahir) 
-              VALUES ('$id_user', '$nama_anak', '$tanggal_lahir', '$jenis_kelamin', '$golongan_darah', '$berat_lahir', '$tinggi_lahir')";
+    $query = "INSERT INTO data_anak (id_user, nama_anak, tanggal_lahir, gender, goldar, berat_lahir, tinggi_lahir) 
+              VALUES ('$id_user', '$nama_anak', '$tanggal_lahir', '$gender', '$golongan_darah', '$berat_lahir', '$tinggi_lahir')";
     
     $result = mysqli_query($koneksi, $query);
     

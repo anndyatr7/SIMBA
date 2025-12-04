@@ -244,7 +244,7 @@ if($riwayat_terakhir){
             <!-- Anak yang sudah terdaftar -->
             <a href="dashboard-anak.php?id_anak=<?= $anak['id_anak'] ?>" class="child-card" style="text-decoration: none; color: inherit;">
                 <div class="icon-box">
-                    <i class="<?= $anak['jenis_kelamin'] == 'Laki-laki' ? 'fa-solid fa-mars' : 'fa-solid fa-venus' ?>"></i>
+                    <i class="<?= $anak['gender'] == 'Laki-laki' ? 'fa-solid fa-mars' : 'fa-solid fa-venus' ?>"></i>
                 </div>
                 <span class="child-name"><?= $anak['nama_anak'] ?></span>
                 <small style="font-size: 12px; color: #666;"><?= $usia_text ?></small>
@@ -284,7 +284,7 @@ if($riwayat_terakhir){
                 
                 <div class="col-6">
                     <label>Jenis Kelamin</label>
-                    <select class="form-control" name="jenis_kelamin" required>
+                    <select class="form-control" name="gender" required>
                         <option value="">Pilih</option>
                         <option value="Laki-laki">Laki-laki</option>
                         <option value="Perempuan">Perempuan</option>
