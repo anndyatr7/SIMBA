@@ -34,19 +34,15 @@ if(isset($_POST['loginanak'])){
         $_SESSION['nik'] = $data['nik'];
         $_SESSION['id_user'] = $data['id_user'];
 
-        // CEK APAKAH USER INI ADA DI TABEL data_anak
-        $id = $data['id_user'];
-        $cek_anak = mysqli_query($koneksi, "SELECT * FROM data_anak WHERE id_user='$id'");
-
-        if(mysqli_num_rows($cek_anak) > 0){
-            // Kalau ada → berarti user ini masuk sebagai IBU ANAK
-            header("Location: ../frontend/dashboard-anak.php");
-            exit;
-        } else {
-            // Kalau tidak ada → user ini adalah IBU (orang dewasa)
-            header("Location: ../frontend/dashboard-ibu.php");
-            exit;
-        }
+        // REDIRECT KE HALAMAN PILIH ANAK
+        header("Location: ../frontend/pilih-anak.php");
+        exit;
+    } else {
+        echo "<script>
+                alert('NIK atau Password salah!');
+                window.location.href = '../frontend/homepage.php';
+              </script>";
+        exit;
     }
 }
  
@@ -102,7 +98,7 @@ if(isset($_POST['regis'])){
         }
         $stmt->close();
     }
-    $check->close();
+    $check_stmt->close();
 }
 
 // LOGIN ADMIN

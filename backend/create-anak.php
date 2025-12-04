@@ -40,10 +40,22 @@ if(isset($_POST['formanak'])){
     $result = mysqli_query($koneksi, $query);
     
     if($result){
-        echo "<script>
-                alert('Berhasil menambahkan data anak!');
-                window.location.href = '../frontend/dashboard-ibu.php';
-              </script>";
+        // CEK DARI MANA USER BERASAL (referer)
+        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+        
+        // Jika dari pilih-anak.php, kembali ke sana
+        if(strpos($referer, 'pilih-anak.php') !== false){
+            echo "<script>
+                    alert('Berhasil menambahkan data anak!');
+                    window.location.href = '../frontend/pilih-anak.php';
+                  </script>";
+        } else {
+            // Jika dari dashboard-ibu.php atau tempat lain
+            echo "<script>
+                    alert('Berhasil menambahkan data anak!');
+                    window.location.href = '../frontend/dashboard-ibu.php';
+                  </script>";
+        }
         exit;
     } else {
         echo "<script>

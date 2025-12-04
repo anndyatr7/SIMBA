@@ -409,7 +409,7 @@
 /* MODAL BOX */
 /* ===================== */
 .modal-box {
-  background: #fde7cd; /* warna peach */
+  background: linear-gradient(135deg, #e7f7fc 0%, #b3e5fc 100%);
   padding: 40px;
   border-radius: 15px;
   width: 70%;
@@ -417,6 +417,20 @@
   text-align: center;
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.25s ease;
+}
+
+.modal-box .form-control {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.modal-box label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
 }
 
 /* ===================== */
@@ -435,7 +449,7 @@
 }
 
 .icon-box {
-  background: #e8dbd0;
+  background: #ffffff;
   width: 120px;
   height: 120px;
   border-radius: 20px;

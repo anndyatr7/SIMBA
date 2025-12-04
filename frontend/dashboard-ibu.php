@@ -321,21 +321,6 @@ if($riwayat_terakhir){
     </div>
 </div>
 
-<style>
-.modal-box .form-control {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 100%;
-}
-
-.modal-box label {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
-}
-</style>
 
 <script>
     const modalAnak = document.getElementById("modalAnak");
