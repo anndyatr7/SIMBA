@@ -3,7 +3,7 @@ session_start();
 require "koneksi.php";
 
 if(isset($_POST['regis'])){
-    // PERBAIKAN: Nama variabel sesuai dengan name di form
+    
     $nama = mysqli_real_escape_string($koneksi, $_POST["nama"]);
     $password = mysqli_real_escape_string($koneksi, $_POST["password"]);
     $nik = mysqli_real_escape_string($koneksi, $_POST["nik"]);
@@ -27,9 +27,7 @@ if(isset($_POST['regis'])){
         exit;
     }
     
-    // PERBAIKAN: Nama tabel dari 'peserta' menjadi 'user'
-    // PERBAIKAN: Sintaks SQL yang benar (hilangkan $id_user, itu auto increment)
-    // PERBAIKAN: Quote yang benar di VALUES
+
     $query = "INSERT INTO user (nama_user, nik, email, password, no_hp, goldar, gender, tempat_lahir, ttl, alamat) 
               VALUES ('$nama', '$nik', '$email', '$password', '$noHP', '$goldar', '$gender', '$tempatLahir', '$tanggalLahir', '$alamat')";
     

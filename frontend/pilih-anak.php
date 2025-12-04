@@ -47,17 +47,12 @@ $anak_result = mysqli_query($koneksi, $anak_query);
             animation: fadeIn 0.3s ease;
         }
 
-        .modal-container h2 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #1e5bf7;
-            font-weight: 600;
-        }
-
         .modal-container h4 {
             text-align: center;
-            color: #666;
             margin-bottom: 30px;
+            color: #1e5bf7;
+            font-weight: 600;
+            font-size: 24px;
         }
 
         .child-options {
@@ -178,13 +173,64 @@ $anak_result = mysqli_query($koneksi, $anak_query);
             color: #999;
             font-size: 14px;
         }
+
+        /* MODAL TAMBAH ANAK */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(3px);
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .modal-box {
+            background: linear-gradient(135deg, #e7f7fc 0%, #b3e5fc 100%);
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.25s ease;
+        }
+
+        .modal-box h4 {
+            margin-bottom: 25px;
+            color: #1e5bf7;
+        }
+
+        .modal-box .form-control {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .modal-box label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            text-align: left;
+        }
+
+        .modal-box .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 
 <div class="modal-container">
-    <h2>Halo <?= $user['nama_user'] ?>!</h2>
-        <h4>Pilih Jagoan/Princess kamu~</h4>
+    <h4>Halo <?= $user['nama_user'] ?>!<br>Pilih Jagoan/Princess kamu~</h4>
 
     <?php if(mysqli_num_rows($anak_result) > 0): ?>
         <div class="child-options">
@@ -197,30 +243,33 @@ $anak_result = mysqli_query($koneksi, $anak_query);
                 $usia_text = $usia->y > 0 ? $usia->y . " tahun" : $usia->m . " bulan";
                 ?>
                 <a href="dashboard-anak.php?id_anak=<?= $anak['id_anak'] ?>" class="child-card">
-                    <div class="icon-box">
-                    <i class="<?= $anak['gender'] == 'Laki-laki' ? 'fa-solid fa-mars' : 'fa-solid fa-venus' ?>"></i>
+                    <div class="icon-box <?= $anak['gender'] == 'Laki-laki' ? 'boy' : 'girl' ?>">
+                        <i class="<?= $anak['gender'] == 'Laki-laki' ? 'fa-solid fa-mars' : 'fa-solid fa-venus' ?>"></i>
                     </div>
                     <span class="child-name"><?= $anak['nama_anak'] ?></span>
-                    <small style="font-size: 12px; color: #666;"><?= $usia_text ?></small>
+                    <small class="child-age"><?= $usia_text ?></small>
                 </a>
             <?php endwhile; ?>
 
             <!-- Tombol Tambah Anak -->
-            <a href="form-anak.php" class="child-card">
+            <div class="child-card" id="openTambahAnak">
                 <div class="icon-box add">
                     <i class="fa-solid fa-plus"></i>
                 </div>
                 <span class="child-name">Tambah Anak</span>
-            </a>
+            </div>
         </div>
     <?php else: ?>
         <div class="empty-state">
             <i class="fa-solid fa-baby"></i>
             <h4>Belum Ada Data Anak</h4>
             <p>Silakan tambahkan data anak terlebih dahulu</p>
-            <a href="form-anak.php" class="btn btn-primary mt-3">
-                <i class="fa-solid fa-plus me-2"></i>Tambah Anak
-            </a>
+            <div class="child-card" id="openTambahAnak" style="display: inline-flex; margin-top: 20px;">
+                <div class="icon-box add">
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <span class="child-name">Tambah Anak</span>
+            </div>
         </div>
     <?php endif; ?>
 
@@ -234,6 +283,84 @@ $anak_result = mysqli_query($koneksi, $anak_query);
         </a>
     </div>
 </div>
+
+<!-- MODAL TAMBAH ANAK -->
+<div id="modalTambahAnak" class="modal-overlay">
+    <div class="modal-box">
+        <h4>Tambah Data Anak</h4>
+        
+        <form action="../backend/tambah-anak.php" method="POST">
+            <div class="row g-3 mt-2">
+                <div class="col-12">
+                    <label>Nama Anak</label>
+                    <input type="text" class="form-control" name="nama_anak" required>
+                </div>
+                
+                <div class="col-6">
+                    <label>Tanggal Lahir</label>
+                    <input type="date" class="form-control" name="tanggal_lahir" required>
+                </div>
+                
+                <div class="col-6">
+                    <label>Jenis Kelamin</label>
+                    <select class="form-control" name="gender" required>
+                        <option value="">Pilih</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                
+                <div class="col-4">
+                    <label>Golongan Darah</label>
+                    <select class="form-control" name="golongan_darah">
+                        <option value="">Pilih</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O">O</option>
+                    </select>
+                </div>
+                
+                <div class="col-4">
+                    <label>Berat Lahir (kg)</label>
+                    <input type="number" step="0.01" class="form-control" name="berat_lahir" placeholder="3.2">
+                </div>
+                
+                <div class="col-4">
+                    <label>Tinggi Lahir (cm)</label>
+                    <input type="number" step="0.01" class="form-control" name="tinggi_lahir" placeholder="50">
+                </div>
+                
+                <div class="col-12 d-flex gap-2">
+                    <button type="submit" name="tambah_anak" class="btn btn-primary w-50">Simpan</button>
+                    <button type="button" class="btn btn-secondary w-50" onclick="closeTambahAnak()">Batal</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const modalTambahAnak = document.getElementById("modalTambahAnak");
+    const openTambah = document.getElementById("openTambahAnak");
+
+    // Buka modal tambah anak
+    openTambah.addEventListener("click", () => {
+        modalTambahAnak.style.display = "flex";
+    });
+
+    // Tutup modal tambah anak
+    modalTambahAnak.addEventListener("click", (e) => {
+        if(e.target === modalTambahAnak){
+            modalTambahAnak.style.display = "none";
+        }
+    });
+
+    function closeTambahAnak() {
+        modalTambahAnak.style.display = "none";
+    }
+</script>
 
 </body>
 </html>

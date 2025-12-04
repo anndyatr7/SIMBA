@@ -39,7 +39,7 @@
                 <h2>Formulir Pendaftaran Akun</h2>
                 <hr />
             </div>
-            <!-- PERBAIKAN: action ke backend/auth.php -->
+
             <form action="../backend/auth.php" method="POST" novalidate>
                 <div class="d-flex gap-4">
                     <div class="form-group w-50">

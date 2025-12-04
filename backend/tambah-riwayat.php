@@ -23,7 +23,7 @@ if(isset($_POST['tambah_riwayat'])){
     $catatan_dokter = mysqli_real_escape_string($koneksi, $_POST['catatan_dokter']);
     $tanggal_periksa = date('Y-m-d'); // Tanggal hari ini
     
-    // Query INSERT ke database
+    // insert ke database
     $query = "INSERT INTO riwayat_pemeriksaan 
               (tinggi_badan, berat_badan, tekanan_darah, 
                usia_kehamilan, tinggi_fundus, denyut_jantung, keluhan, 

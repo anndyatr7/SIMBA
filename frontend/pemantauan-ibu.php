@@ -91,7 +91,7 @@ $riwayat = mysqli_fetch_assoc($q);
     <?php
     // Ambil keluhan dari tabel keluhan
     $kq = mysqli_query($koneksi, "SELECT * FROM keluhan");
-    // Jika belum ada riwayat
+    // Jika blum ada riwayat
     if (!$riwayat) {
         echo "<div class='alert alert-warning text-center mt-4'>
                 Silakan datang ke posyandu terlebih dahulu agar usia kehamilan dapat dicatat.

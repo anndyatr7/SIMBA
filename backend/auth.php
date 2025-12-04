@@ -78,7 +78,6 @@ if(isset($_POST['regis'])){
             </script>";
         exit;
     } else {
-        // PERBAIKAN: Urutan kolom sesuai database
         $stmt = $koneksi->prepare("INSERT INTO user (nama_user, nik, email, password, no_hp, goldar, gender, tempat_lahir, ttl, alamat) 
                                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssssss", $nama, $nik, $email, $password, $noHP, $goldar, $gender, $tempatLahir, $tanggalLahir, $alamat);
@@ -106,7 +105,6 @@ if(isset($_POST['loginAdmin'])){
     $nip = mysqli_real_escape_string($koneksi, $_POST['NIP']);
     $passwordAdmin = mysqli_real_escape_string($koneksi, $_POST['passwordAdmin']);
 
-    // PERBAIKAN: Logika if dibalik (sebelumnya salah)
     if($nip == '12345' && $passwordAdmin == 'Admin123'){
         $_SESSION['admin'] = true;
         $_SESSION['nip'] = $nip;

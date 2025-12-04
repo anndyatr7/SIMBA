@@ -100,15 +100,12 @@ if($riwayat_terakhir){
     <a href="riwayat-ibu.php" class="nav-item">
         <i class="fa-regular fa-file-lines"></i> Riwayat
     </a>
-    <a href="pemantauan-ibu.php" class="nav-item">
-        <i class="fa-regular fa-book-open"></i> Pemantauan
-    </a>
     <a href="edukasi-ibu.php" class="nav-item">
         <i class="fa-regular fa-book-open"></i> Edukasi
     </a>
 </div>
 
-<!-- WELCOME BANNER -->
+<!-- WELCOME -->
 <div class="welcome-banner">
     <h4>Selamat Datang, <?= $user['nama_user'] ?>! 👋</h4>
     <p>Pantau kesehatan kehamilan Anda dan dapatkan informasi terkini tentang layanan posyandu</p>

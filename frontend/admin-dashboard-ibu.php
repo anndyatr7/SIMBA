@@ -1,7 +1,7 @@
 <?php 
 require "../backend/koneksi.php";
 
-$query = "SELECT * FROM user ORDER BY id_user DESC";
+$query = "SELECT * FROM user WHERE gender='Perempuan' ORDER BY id_user DESC";
 $result = mysqli_query($koneksi, $query);
 ?>
 

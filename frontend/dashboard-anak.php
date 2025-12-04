@@ -16,7 +16,7 @@ $user_query = "SELECT * FROM user WHERE id_user = $id_user";
 $user_result = mysqli_query($koneksi, $user_query);
 $user = mysqli_fetch_assoc($user_result);
 
-// Ambil data anak (pastikan anak ini milik user yang login)
+// Ambil data anak
 $anak_query = "SELECT * FROM data_anak WHERE id_anak = $id_anak AND id_user = $id_user";
 $anak_result = mysqli_query($koneksi, $anak_query);
 $anak = mysqli_fetch_assoc($anak_result);
@@ -159,8 +159,7 @@ $riwayat_terakhir = mysqli_fetch_assoc($riwayat_result);
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Data dari PHP
-// DATA DUMMY — tidak akan ambil dari database
+// DATA DUMMY
 const dataGrafik = [
     { usia: 1, tinggi_badan: 50 },
     { usia: 2, tinggi_badan: 55 },

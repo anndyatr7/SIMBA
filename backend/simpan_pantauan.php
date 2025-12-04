@@ -3,7 +3,6 @@ session_start();
 require "config/koneksi.php";
 
 //pemantauan keluhan
-//====================
 $id_user = $_SESSION["id_user"];
 $minggu = $_POST['minggu_ke'];
 $keluhan = $_POST['keluhan'] ?? [];
@@ -20,7 +19,6 @@ header("Location: pantau.php?saved=1");
 exit;
 
 // pemantauan ttd
-//=================
 $id_user = $_SESSION['id_user'];
 $bulan   = $_POST['bulan'];
 $hari    = $_POST['hari'];

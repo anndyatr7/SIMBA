@@ -80,11 +80,11 @@ $riwayat = mysqli_query($koneksi, $query_riwayat);
             <div class="card-header p-0">
                 <ul class="nav nav-tabs w-100 d-flex justify-content-center">
                     <li class="nav-item flex-fill text-center">
-                        <!-- PERBAIKAN: Tambahkan id_user di URL -->
+                        
                         <a class="nav-link active" href="admin-riwayat.php?id_user=<?= $id_ibu ?>">Riwayat Pemeriksaan</a>
                     </li>
                     <li class="nav-item flex-fill text-center">
-                        <!-- PERBAIKAN: Tambahkan id_user di URL -->
+                        
                         <a style="background: white;" class="nav-link" href="admin-tambah.php?id_user=<?= $id_ibu ?>">Tambah Riwayat Pemeriksaan</a>
                     </li>
                 </ul>

@@ -97,9 +97,8 @@ if(!$data_ibu){
                     <p class="mb-0">NIK: <?= $data_ibu['nik'] ?></p>
                 </div>
 
-                <!-- PERBAIKAN: action ke backend, method POST, tambahkan id_user -->
+
                 <form action="../backend/tambah-riwayat.php" method="POST">
-                    
                     <!-- Hidden input untuk id_user -->
                     <input type="hidden" name="id_user" value="<?= $id_user ?>">
 
@@ -183,7 +182,6 @@ if(!$data_ibu){
                         <textarea class="form-control" name="catatan_dokter rows="3" required></textarea>
                     </div>
 
-                    <!-- PERBAIKAN: Ganti <a> dengan <button type="submit"> -->
                     <button type="submit" name="tambah_riwayat" class="btn btn-primary mt-5" style="width: 50%;">Simpan Data Pemeriksaan</button>
                 </form>
             </div>
@@ -194,7 +192,7 @@ if(!$data_ibu){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 
     <script>
-        // Handle checkbox keluhan
+        // Handle checkbox keluhans
         document.querySelectorAll(".keluhanCheck").forEach(cb => {
             cb.addEventListener("change", () => {
                 let selected = [];

@@ -3,7 +3,6 @@ session_start();
 require "koneksi.php";
 
 if(isset($_POST['formanak'])){
-    // PERBAIKAN: Nama variabel sesuai dengan name di form
     $id_user = $_SESSION['id_user'];
     $nama = mysqli_real_escape_string($koneksi, $_POST["nama"]);
     $nik = mysqli_real_escape_string($koneksi, $_POST["nik"]);
@@ -31,9 +30,7 @@ if(isset($_POST['formanak'])){
         exit;
     }
     
-    // PERBAIKAN: Nama tabel dari 'peserta' menjadi 'user'
-    // PERBAIKAN: Sintaks SQL yang benar (hilangkan $id_user, itu auto increment)
-    // PERBAIKAN: Quote yang benar di VALUES
+    
     $query = "INSERT INTO data_anak (id_user, nama_anak, nik, tempat_lahir, tanggal_lahir, gender, goldar) 
               VALUES ($id_user, '$nama', '$nik', '$tempatLahir', '$tanggalLahir', '$gender',  '$goldar')";
     

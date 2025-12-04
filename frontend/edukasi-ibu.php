@@ -66,10 +66,6 @@ $user = mysqli_fetch_assoc($user_result);
     <a href="riwayat-ibu.php" class="nav-item">
         <i class="fa-regular fa-file-lines"></i> Riwayat
     </a>
-    
-    <a href="pemantauan-ibu.php" class="nav-item">
-        <i class="fa-regular fa-book-open"></i> Pemantauan
-    </a>
 
     <a href="edukasi-ibu.php" class="nav-item active">
         <i class="fa-regular fa-book-open"></i> Edukasi
